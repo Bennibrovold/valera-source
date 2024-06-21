@@ -23,6 +23,7 @@ import { GiTeamUpgrade } from "react-icons/gi";
 import BUHLO from "../../assets/buhlo.webp";
 import FEED from "../../assets/feed.mp3";
 import TUTUTU from "../../assets/tututu.mp3";
+import { Actions } from "./actions";
 
 const audio = new Audio();
 audio.preload = "auto";
@@ -85,52 +86,16 @@ export const Main = () => {
 
   return (
     <Wrapper>
-      <BackToMenu onClick={() => setScreen("menu")}>Меню</BackToMenu>
-      <ProfileButton onClick={() => setScreen("profile")}>
-        Профиль
-      </ProfileButton>
       <ScoreWrapper>
-        <Relative>
-          <AbsoluteButtons>
-            <Score>
-              {score}
-              <img src={isDevMedia(BUHLO)} />
-            </Score>
-          </AbsoluteButtons>
-        </Relative>
+        <Score>
+          {score}
+          <img src={isDevMedia(BUHLO)} />
+        </Score>
       </ScoreWrapper>
       <h1>
         <ValeraUI />
       </h1>
-
-      <Relative>
-        <AbsoluteButtons>
-          <Button onClick={buyUpgradeFn}>
-            <GiTeamUpgrade />
-            Улучшить Валеру
-            <Price>
-              {prices[progress] || "Максимум"}
-              <img src={isDevMedia(BUHLO)} />
-            </Price>
-          </Button>
-          <Button onClick={feedValeraFn}>
-            <SiBurgerking />
-            Накормить Валеру{" "}
-            <Price>
-              {priceFeed}
-              <img src={isDevMedia(BUHLO)} />
-            </Price>
-          </Button>
-          <Button onClick={reset}>
-            <FaRegTrashCan />
-            Сбросить
-            <Price>
-              {priceFeed}
-              <img src={isDevMedia(BUHLO)} />
-            </Price>
-          </Button>
-        </AbsoluteButtons>
-      </Relative>
+      <Actions />
     </Wrapper>
   );
 };
@@ -170,47 +135,11 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
-  width: 300px;
-`;
-
-const Button = styled.button`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  justify-content: center;
-  align-items: center;
-
-  width: 300px;
-
-  svg {
-    font-size: 50px;
-    flex-grow: 1;
-  }
-
-  &:last-child {
-    div {
-      visibility: hidden;
-    }
-  }
+  width: 100%;
 `;
 
 const ScoreWrapper = styled.div`
   margin-bottom: 100px;
-`;
-
-const Price = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  font-size: 20px;
-  width: 100%;
-  border-radius: 8px;
-  padding: 4px;
-  background-color: #212121;
-
-  img {
-    height: 30px;
-  }
 `;
 
 const AbsoluteButtons = styled.div`

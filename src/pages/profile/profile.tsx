@@ -4,7 +4,6 @@ import { setScreen } from "../../shared/config/router";
 export const ProfilePage = () => {
   return (
     <div>
-      <BackToMenu onClick={() => setScreen("game")}>Назад</BackToMenu>
       <h1>Профиль</h1>
     </div>
   );
