@@ -10,7 +10,7 @@ export const $up = createStore(
 
 $up.watch((x) => {
   if (
-    STORE_DATA_SAMPLE.length > JSON.parse(localStorage.getItem("store")).length
+    STORE_DATA_SAMPLE.length > JSON.parse(localStorage.getItem("store"))?.length
   ) {
     localStorage.setItem("store", JSON.stringify(STORE_DATA_SAMPLE));
   } else {
