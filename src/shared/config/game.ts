@@ -1,6 +1,8 @@
-import { createEvent, createStore, sample } from "effector";
+import { combine, createEvent, createStore, sample } from "effector";
 import Swal from "sweetalert2";
 import BALOON from "../../assets/baloon.mp3";
+import { $up, setUp, store } from "../../pages/shop/shop";
+import { STORE_DATA_SAMPLE } from "../../pages/shop/shop.data";
 
 export const isDevelopment = process.env.NODE_ENV === "development";
 
@@ -10,9 +12,17 @@ export const isDevMedia = (link) => {
     : `https://bennibrovold.github.io/valera-simulator/${link}`;
 };
 
-export const $sound = createStore<boolean>(true);
+export const $sound = createStore<boolean>(
+  localStorage.getItem("sound") === "true" ? true : false
+);
 export const setSound = createEvent<boolean>();
 $sound.on(setSound, (_, payload) => payload);
+
+$sound.watch((x) => {
+  const r = localStorage.getItem("sound");
+  console.log(x, r);
+  localStorage.setItem("sound", x.toString());
+});
 
 export const $score = createStore<number>(
   parseInt(localStorage.getItem("score")) || 0
@@ -20,7 +30,24 @@ export const $score = createStore<number>(
 export const setScore = createEvent<number>();
 export const addScore = createEvent<void>();
 
-$score.on(addScore, (store) => store + 1);
+$score.on(addScore, (store) => {
+  let multiplayer = $multiplayer.getState();
+  const up = $up.getState();
+
+  up.forEach((item) => {
+    multiplayer += item.qnty * item.multiply;
+  });
+
+  console.log(
+    parseFloat(store),
+    parseFloat(Math.floor(1 * parseFloat(multiplayer) * 10) / 10)
+  );
+
+  return Number(
+    parseFloat(store) +
+      parseFloat(Math.floor(1 * parseFloat(multiplayer) * 10) / 10)
+  ).toFixed(2);
+});
 $score.on(setScore, (_, payload) => payload);
 $score.watch((x) => {
   localStorage.setItem("score", x.toString());
@@ -46,8 +73,10 @@ buyUpgrade.watch((_) => {
   const prices = $prices.getState();
   const price = prices[progress];
 
+  console.log(parseFloat(score) - parseFloat(price));
+
   if (price <= score) {
-    setScore(score - price);
+    setScore((parseFloat(score) - parseFloat(price)).toFixed(2));
     setProgress(progress + 1);
   }
 });
@@ -67,7 +96,8 @@ audio.preload = "auto";
 audio.src = isDevMedia(BALOON);
 
 $dead.watch((x) => {
-  if (x) {
+  const sound = $sound.getState();
+  if (x && sound) {
     audio.play();
   }
 });
@@ -84,24 +114,43 @@ feedValera.watch((x) => {
   const score = $score.getState();
   const price = $priceFeed.getState();
   if (score >= price) {
-    setScore(score - price);
+    setScore((parseFloat(score) - parseFloat(price)).toFixed(2));
     setPriceFeed(Math.floor(price * 1.14));
   }
 
   const res = random(1, 100);
 
-  if (res > 70) {
+  if (res > 80) {
     setDead(true);
+    setUp(STORE_DATA_SAMPLE);
+    setProgress(0);
+    setScore(0);
+    resetFeed();
     Swal.fire({
-      title: "Пиздец!",
+      title: "Байка!",
       text: "Валера погиб...",
       icon: "error",
       allowOutsideClick: false,
       confirmButtonText: "Заново.",
-    }).then((x) => {
-      setProgress(0);
-      setScore(0);
-      resetFeed();
-    });
+    }).then((x) => {});
+  } else {
+    addMultiplayer();
   }
+});
+
+export const $multiplayer = createStore<number>(1).reset(resetFeed);
+export const setMultiplayer = createEvent<number>();
+export const addMultiplayer = createEvent<void>();
+$multiplayer.on(setMultiplayer, (_, payload) => payload);
+$multiplayer.on(addMultiplayer, (store) => store + 1);
+
+export const $multiplayerShow = combine([$multiplayer, $up]).map((store) => {
+  const [multiplayer, up] = store;
+  let multiplayer_ = multiplayer;
+
+  up.forEach((item) => {
+    multiplayer_ += item.qnty * item.multiply;
+  });
+
+  return multiplayer_;
 });

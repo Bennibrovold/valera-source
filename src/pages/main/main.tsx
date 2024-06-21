@@ -2,7 +2,15 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ValeraUI } from "./valera";
 import { useUnit } from "effector-react";
-import { $dead, $score, isDevMedia, setDead } from "../../shared/config/game";
+import {
+  $dead,
+  $multiplayer,
+  $multiplayerShow,
+  $score,
+  $sound,
+  isDevMedia,
+  setDead,
+} from "../../shared/config/game";
 import BUHLO from "../../assets/buhlo.webp";
 import FEED from "../../assets/feed.mp3";
 import TUTUTU from "../../assets/tututu.mp3";
@@ -21,6 +29,8 @@ export const Main = () => {
   const [init, setInit] = useState(false);
   const score = useUnit($score);
   const dead = useUnit($dead);
+  const sound = useUnit($sound);
+  const multiplayer = useUnit($multiplayerShow);
 
   useEffect(() => {
     setInit(true);
@@ -35,10 +45,18 @@ export const Main = () => {
   }, [dead]);
 
   useEffect(() => {
-    if (!score || init) {
+    if (!score || (init && sound)) {
       tututu.play();
     }
   }, [score, init]);
+
+  useEffect(() => {
+    if (!sound) {
+      tututu.volume = 0;
+    } else {
+      tututu.volume = 1;
+    }
+  }, [sound]);
 
   return (
     <Wrapper>
@@ -47,6 +65,7 @@ export const Main = () => {
           {score}
           <img src={isDevMedia(BUHLO)} />
         </Score>
+        <Multiplayer> X{multiplayer}</Multiplayer>
       </ScoreWrapper>
       <h1>
         <ValeraUI />
@@ -56,11 +75,12 @@ export const Main = () => {
   );
 };
 
+const Multiplayer = styled.div``;
+
 const Score = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 
   font-size: 28px;
 
@@ -74,7 +94,16 @@ const Wrapper = styled.div`
   padding: 0px 8px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+
+  flex-grow: 1;
+  justify-content: flex-end;
+
+  h1 {
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
 `;
 
 const ScoreWrapper = styled.div``;

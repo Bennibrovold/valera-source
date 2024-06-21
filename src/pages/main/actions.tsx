@@ -5,18 +5,18 @@ import {
   $prices,
   $progress,
   $score,
+  $sound,
   feedValera,
   isDevMedia,
-  setProgress,
-  setScore,
 } from "../../shared/config/game";
-import BUHLO from "../../assets/buhlo.webp";
 import { useUnit } from "effector-react";
-import { GiTeamUpgrade } from "react-icons/gi";
-import { SiBurgerking } from "react-icons/si";
 import FEED from "../../assets/feed.mp3";
-import BG from "../../assets/bg.png";
-import { RiRestaurant2Fill, RiShoppingBasket2Line } from "react-icons/ri";
+import {
+  RiMap2Line,
+  RiRestaurant2Fill,
+  RiShoppingBasket2Line,
+} from "react-icons/ri";
+import { setScreen } from "../../shared/config/router";
 
 const audio = new Audio();
 audio.preload = "auto";
@@ -24,16 +24,17 @@ audio.src = isDevMedia(FEED);
 
 export const Actions = () => {
   const score = useUnit($score);
-  const prices = useUnit($prices);
-  const progress = useUnit($progress);
+  const sound = useUnit($sound);
 
   const priceFeed = useUnit($priceFeed);
 
   const feedValeraFn = () => {
     if (score >= priceFeed) {
-      audio.pause();
-      audio.currentTime = 0;
-      audio.play();
+      if (sound) {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.play();
+      }
 
       feedValera();
     }
@@ -42,11 +43,15 @@ export const Actions = () => {
   return (
     <Wrapper>
       <Helper>
-        <Button onClick={() => {}}>
+        <Button onClick={() => setScreen("shop")}>
           <RiShoppingBasket2Line />
+        </Button>
+        <Button onClick={() => {}}>
+          <RiMap2Line />
         </Button>
         <Button onClick={feedValeraFn}>
           <RiRestaurant2Fill />
+          <Price>{priceFeed}</Price>
         </Button>
       </Helper>
     </Wrapper>
@@ -54,7 +59,6 @@ export const Actions = () => {
 };
 
 const Helper = styled.div`
-  padding: 8px;
   display: flex;
   flex-grow: 1;
   gap: 8px;
@@ -63,10 +67,11 @@ const Helper = styled.div`
 const Wrapper = styled.div`
   display: flex;
   gap: 8px;
-  position: fixed;
-  bottom: 16px;
+  margin-bottom: 20px;
   left: 0px;
   width: 100%;
+  position: relative;
+  z-index: 2;
 `;
 const Button = styled.button`
   display: flex;
@@ -75,18 +80,15 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-
+  transition: all 0.2s ease-in-out;
   width: 100%;
 
   svg {
     font-size: 50px;
     flex-grow: 1;
   }
-
-  &:last-child {
-    div {
-      visibility: hidden;
-    }
+  &:hover {
+    background-color: #296f82;
   }
 `;
 

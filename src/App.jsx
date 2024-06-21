@@ -9,14 +9,21 @@ import { ProfilePage } from "./pages/profile/profile";
 import { isDevMedia } from "./shared/config/game";
 import BG from "./assets/bg.png";
 import { Header } from "./layout/header";
+import "./assets/font/font.css";
+import { $location, $locations } from "./shared/config/location";
+import { Shop } from "./pages/shop";
 
 function App() {
   const screen = useUnit($screen);
+  const locations = useUnit($locations);
+  const location = useUnit($location);
 
   return (
-    <Wrapper>
+    <Wrapper location={screen === "game" ? locations[location] : null}>
       {screen !== "menu" && <Header />}
-      {screen === "profile" ? (
+      {screen === "shop" ? (
+        <Shop />
+      ) : screen === "profile" ? (
         <ProfilePage />
       ) : screen === "menu" ? (
         <Menu />
@@ -25,7 +32,7 @@ function App() {
       )}
       <DeveloperInfo>
         Связь с разработчиком:{" "}
-        <a href="https://t.me/hellmorphin">@Hellmorphin</a>. Версия 1.0.2
+        <a href="https://t.me/hellmorphin">@Hellmorphin</a>. Версия 1.0.3
       </DeveloperInfo>
     </Wrapper>
   );
@@ -33,7 +40,7 @@ function App() {
 
 const DeveloperInfo = styled.div`
   position: fixed;
-  bottom: 4px;
+  bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -44,9 +51,13 @@ const DeveloperInfo = styled.div`
 const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
-  background-image: url(${isDevMedia(BG)});
+  background-image: url(${(p) => isDevMedia(p.location || BG)});
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
+
+  display: flex;
+  flex-direction: column;
 `;
 
 export default App;

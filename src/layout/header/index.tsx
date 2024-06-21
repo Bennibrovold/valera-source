@@ -6,17 +6,20 @@ import {
   RiMenuFill,
   RiSettings5Line,
   RiUser3Line,
+  RiVolumeMuteLine,
   RiVolumeUpLine,
 } from "react-icons/ri";
 import React from "react";
+import { $sound, setSound } from "../../shared/config/game";
 
 export const Header = () => {
   const screen = useUnit($screen);
+  const sound = useUnit($sound);
 
   return (
     <Wrapper>
       <Links>
-        {screen === "profile" ? (
+        {screen !== "game" ? (
           <Link onClick={() => setScreen("game")}>
             <RiArrowGoBackFill />
           </Link>
@@ -35,11 +38,8 @@ export const Header = () => {
       <RightBar>
         <Username>Гость</Username>
         <Links>
-          <Link>
-            <RiVolumeUpLine />
-          </Link>
-          <Link>
-            <RiSettings5Line />
+          <Link onClick={() => setSound(!sound)}>
+            {sound ? <RiVolumeUpLine /> : <RiVolumeMuteLine />}
           </Link>
         </Links>
       </RightBar>
@@ -48,12 +48,14 @@ export const Header = () => {
 };
 
 const Wrapper = styled.div`
-  height: 50px;
+  height: 40px;
   display: flex;
   align-items: center;
   padding: 8px 8px;
   background-color: transparent;
   gap: 8px;
+  position: relative;
+  z-index: 2;
 `;
 
 const Links = styled.div`
@@ -63,7 +65,7 @@ const Links = styled.div`
 `;
 
 const Link = styled.div<{ active?: boolean }>`
-  background-color: #31849b;
+  background-color: #1a1a1a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,7 +94,7 @@ const RightBar = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: #31849b;
+  background-color: #1a1a1a;
   height: 100%;
   height: 40px;
   border-radius: 8px;
@@ -100,6 +102,6 @@ const RightBar = styled.div`
 
 const Username = styled.div`
   display: flex;
-  margin: 0px 4px;
+  margin: 0px 8px;
   align-items: center;
 `;
