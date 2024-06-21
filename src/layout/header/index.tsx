@@ -8,6 +8,7 @@ import {
   RiUser3Line,
   RiVolumeUpLine,
 } from "react-icons/ri";
+import React from "react";
 
 export const Header = () => {
   const screen = useUnit($screen);
@@ -32,6 +33,7 @@ export const Header = () => {
         </Link>
       </Links>
       <RightBar>
+        <Username>Гость</Username>
         <Links>
           <Link>
             <RiVolumeUpLine />
@@ -56,6 +58,7 @@ const Wrapper = styled.div`
 
 const Links = styled.div`
   display: flex;
+  justify-content: flex-end;
   gap: 8px;
 `;
 
@@ -93,4 +96,10 @@ const RightBar = styled.div`
   height: 100%;
   height: 40px;
   border-radius: 8px;
+`;
+
+const Username = styled.div`
+  display: flex;
+  margin: 0px 4px;
+  align-items: center;
 `;

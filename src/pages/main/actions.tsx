@@ -16,6 +16,7 @@ import { GiTeamUpgrade } from "react-icons/gi";
 import { SiBurgerking } from "react-icons/si";
 import FEED from "../../assets/feed.mp3";
 import BG from "../../assets/bg.png";
+import { RiRestaurant2Fill, RiShoppingBasket2Line } from "react-icons/ri";
 
 const audio = new Audio();
 audio.preload = "auto";
@@ -40,32 +41,32 @@ export const Actions = () => {
 
   return (
     <Wrapper>
-      <Button onClick={() => {}}>
-        <GiTeamUpgrade />
-        Магазин
-        <Price>
-          {prices[progress] || "Максимум"}
-          <img src={isDevMedia(BUHLO)} />
-        </Price>
-      </Button>
-      <Button onClick={feedValeraFn}>
-        <SiBurgerking />
-        Накормить Валеру{" "}
-        <Price>
-          {priceFeed}
-          <img src={isDevMedia(BUHLO)} />
-        </Price>
-      </Button>
+      <Helper>
+        <Button onClick={() => {}}>
+          <RiShoppingBasket2Line />
+        </Button>
+        <Button onClick={feedValeraFn}>
+          <RiRestaurant2Fill />
+        </Button>
+      </Helper>
     </Wrapper>
   );
 };
 
+const Helper = styled.div`
+  padding: 8px;
+  display: flex;
+  flex-grow: 1;
+  gap: 8px;
+`;
+
 const Wrapper = styled.div`
+  display: flex;
+  gap: 8px;
   position: fixed;
-  bottom: 0px;
+  bottom: 16px;
   left: 0px;
   width: 100%;
-  background-image: url(${isDevMedia(BG)});
 `;
 const Button = styled.button`
   display: flex;
@@ -73,6 +74,7 @@ const Button = styled.button`
   gap: 16px;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
 
   width: 100%;
 

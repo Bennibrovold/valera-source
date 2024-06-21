@@ -24,9 +24,8 @@ function App() {
         <Main />
       )}
       <DeveloperInfo>
-        Версия 1.0.2 <br />
         Связь с разработчиком:{" "}
-        <a href="https://t.me/hellmorphin">@Hellmorphin</a>
+        <a href="https://t.me/hellmorphin">@Hellmorphin</a>. Версия 1.0.2
       </DeveloperInfo>
     </Wrapper>
   );
@@ -34,7 +33,7 @@ function App() {
 
 const DeveloperInfo = styled.div`
   position: fixed;
-  bottom: 8px;
+  bottom: 4px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;

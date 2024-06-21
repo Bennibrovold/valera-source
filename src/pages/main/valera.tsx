@@ -40,6 +40,8 @@ export const ValeraUI = () => {
 };
 
 const Wrapper = styled.div<{ isScale: boolean; scaleFactor?: number }>`
+  display: flex;
+  justify-content: center;
   touch-action: manipulation;
   ${({ isScale }) =>
     isScale &&
