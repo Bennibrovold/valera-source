@@ -10,6 +10,10 @@ export const isDevMedia = (link) => {
     : `https://bennibrovold.github.io/valera-simulator/${link}`;
 };
 
+export const $sound = createStore<boolean>(true);
+export const setSound = createEvent<boolean>();
+$sound.on(setSound, (_, payload) => payload);
+
 export const $score = createStore<number>(
   parseInt(localStorage.getItem("score")) || 0
 );
