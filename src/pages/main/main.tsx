@@ -15,6 +15,9 @@ import BUHLO from "../../assets/buhlo.webp";
 import FEED from "../../assets/feed.mp3";
 import TUTUTU from "../../assets/tututu.mp3";
 import { Actions } from "./actions";
+import { RiZzzFill } from "react-icons/ri";
+import { GiIceCreamScoop, GiHealthNormal } from "react-icons/gi";
+import { addEntities } from "./models/entities";
 
 const audio = new Audio();
 audio.preload = "auto";
@@ -58,6 +61,8 @@ export const Main = () => {
     }
   }, [sound]);
 
+  const onClickFn = () => {};
+
   return (
     <Wrapper>
       <ScoreWrapper>
@@ -67,8 +72,22 @@ export const Main = () => {
         </Score>
         <Multiplayer> X{multiplayer}</Multiplayer>
       </ScoreWrapper>
+      <Bar>
+        <Healbar>
+          <GiHealthNormal />
+        </Healbar>
+        <Sleepbar>
+          <RiZzzFill />
+        </Sleepbar>
+      </Bar>
       <h1>
+        <Circle onClick={onClickFn}>
+          <RiZzzFill />
+        </Circle>
         <ValeraUI />
+        <Circle>
+          <GiIceCreamScoop />
+        </Circle>
       </h1>
       <Actions />
     </Wrapper>
@@ -107,3 +126,39 @@ const Wrapper = styled.div`
 `;
 
 const ScoreWrapper = styled.div``;
+
+const Circle = styled.div`
+  display: flex;
+  width: 44px;
+  height: 44px;
+
+  border-radius: 44px;
+  background-color: #2c2b2b;
+
+  justify-content: center;
+  font-size: 23px;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 12px;
+  margin-right: 12px;
+  &:hover {
+    background-color: #296f82;
+  }
+`;
+
+const Bar = styled.div`
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+`;
+
+const Healbar = styled.div`
+  border-radius: 44px;
+  background-color: #2c2b2b;
+`;
+
+const Sleepbar = styled.div`
+  border-radius: 44px;
+  background-color: #2c2b2b;
+`;
