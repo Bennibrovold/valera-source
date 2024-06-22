@@ -37,7 +37,10 @@ const initScore = () => {
 
 export const $score = createStore<number>(initScore());
 export const setScore = createEvent<number>();
+export const setHistoryScore = createEvent<number>();
 export const addScore = createEvent<void>();
+
+$score.on(setHistoryScore, (store, payload) => store + payload);
 
 $score.on(addScore, (store) => {
   let multiplayer = $multiplayer.getState();
