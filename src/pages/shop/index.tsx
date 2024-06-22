@@ -9,7 +9,7 @@ export const Shop = () => {
   const score = useUnit($score);
   const shop = useUnit($up);
   const multiplayer = useUnit($multiplayerShow);
-
+  const onClickFn = () => {};
   return (
     <Wrapper>
       <Score>
@@ -17,6 +17,13 @@ export const Shop = () => {
         {score}
       </Score>
       <Multiplayer> X{multiplayer}</Multiplayer>
+      <Pack>
+        <Menu>
+          <Click onClick={onClickFn}>Прокачка</Click>
+          <Car onClick={onClickFn}>Автосалон</Car>
+          <Skin onClick={onClickFn}>Скины</Skin>
+        </Menu>
+      </Pack>
       <Group>
         {shop.map((x) => (
           <Item onClick={() => buy({ name: x.name, price: x.price })}>
@@ -86,3 +93,35 @@ const Group = styled.div`
   overflow-y: scroll;
 `;
 const Multiplayer = styled.div``;
+
+const Menu = styled.div`
+  padding-top: 10px;
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+`;
+const Click = styled.div`
+  border-radius: 44px;
+  background-color: #2c2b2b;
+  text-align: center;
+`;
+const Car = styled.div`
+  border-radius: 44px;
+  background-color: #2c2b2b;
+  text-align: center;
+  cursor: pointer;
+`;
+const Pack = styled.div`
+  height: 4px;
+  margin-bottom: 36px;
+  background: gray;
+  width: 100%;
+  cursor: pointer;
+`;
+const Skin = styled.div`
+  border-radius: 44px;
+  background-color: #2c2b2b;
+  text-align: center;
+  cursor: pointer;
+`;
