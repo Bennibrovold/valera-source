@@ -1,4 +1,6 @@
 export const numberToSpecialFormat = (number) => {
+  if (!number) return 0;
+
   // Определяем степень тысячи
   let exponent = Math.floor(Math.log(number) / Math.log(1000));
 
