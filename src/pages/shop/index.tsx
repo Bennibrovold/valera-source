@@ -1,6 +1,6 @@
 import { useUnit } from "effector-react";
 import { $up, buy } from "./shop";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import React from "react";
 import { $multiplayerShow, $score, isDevMedia } from "../../shared/config/game";
 import BUHLO from "../../assets/buhlo.webp";
@@ -27,7 +27,10 @@ export const Shop = () => {
       </Pack>
       <Group>
         {shop.map((x) => (
-          <Item onClick={() => buy({ name: x.name, price: x.price })}>
+          <Item
+            onClick={() => buy({ name: x.name, price: x.price })}
+            isEnough={x.price <= score}
+          >
             <Title>
               <Name>{x.name}</Name>
               <Price> {numberToSpecialFormat(x.price)}</Price>
@@ -49,13 +52,19 @@ const Wrapper = styled.div`
   padding: 0px 8px;
 `;
 
-const Item = styled.div`
+const Item = styled.div<{ isEnough: boolean }>`
   display: flex;
   padding: 8px;
   background-color: #fff;
   color: #000;
 
   flex-direction: column;
+
+  ${({ isEnough }) =>
+    !isEnough &&
+    css`
+      opacity: 0.5;
+    `}
 `;
 
 const Title = styled.div`
