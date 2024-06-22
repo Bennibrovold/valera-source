@@ -21,6 +21,7 @@ import { addEntities } from "./models/entities";
 import { BarUI } from "../../features/bar";
 import { FaGrinHearts, FaRegSmile } from "react-icons/fa";
 import { IoFastFoodSharp } from "react-icons/io5";
+import { numberToSpecialFormat } from "../../shared/lib/format-number";
 
 const audio = new Audio();
 audio.preload = "auto";
@@ -71,7 +72,7 @@ export const Main = () => {
       <GameInfo>
         <ScoreWrapper>
           <Score>
-            {score}
+            {numberToSpecialFormat(score)}
             <img src={isDevMedia(BUHLO)} />
           </Score>
           <Multiplayer> X{multiplayer}</Multiplayer>

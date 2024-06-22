@@ -4,22 +4,23 @@ import { HYSTORY } from "./history.data";
 import { $score, setScore } from "../../shared/config/game";
 import { useUnit } from "effector-react";
 
+const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
 export const GameHistory = () => {
   const score = useUnit($score);
-  const [progress, setProgress] = useState<number>(0);
   useEffect(() => {
-    setTimeout(() => {
+    setInterval(() => {
+      const rand_val = rand(0, HYSTORY.length - 1);
       Swal.fire({
-        title: HYSTORY[progress].title,
-        text: HYSTORY[progress].description,
+        title: HYSTORY[rand_val].title,
+        text: HYSTORY[rand_val].description,
         icon: "info",
         allowOutsideClick: false,
         confirmButtonText: "Понятно.",
       }).then((x) => {
-        setScore(score + HYSTORY[progress].bonus);
-        if (progress < HYSTORY.length - 1) setProgress(progress + 1);
+        setScore(score + HYSTORY[rand_val].bonus);
       });
-    }, 60 * 60 * 10);
+    }, 10 * 60 * 1000);
   }, []);
 
   return null;

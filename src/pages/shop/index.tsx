@@ -4,6 +4,7 @@ import styled from "styled-components";
 import React from "react";
 import { $multiplayerShow, $score, isDevMedia } from "../../shared/config/game";
 import BUHLO from "../../assets/buhlo.webp";
+import { numberToSpecialFormat } from "../../shared/lib/format-number";
 
 export const Shop = () => {
   const score = useUnit($score);
@@ -14,7 +15,7 @@ export const Shop = () => {
     <Wrapper>
       <Score>
         <img src={isDevMedia(BUHLO)} />
-        {score}
+        {numberToSpecialFormat(score)}
       </Score>
       <Multiplayer> X{multiplayer}</Multiplayer>
       <Pack>
@@ -29,7 +30,7 @@ export const Shop = () => {
           <Item onClick={() => buy({ name: x.name, price: x.price })}>
             <Title>
               <Name>{x.name}</Name>
-              <Price> {x.price}</Price>
+              <Price> {numberToSpecialFormat(x.price)}</Price>
             </Title>
             <SubTitle>
               <p>Куплено: {x.qnty}</p>

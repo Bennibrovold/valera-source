@@ -36,7 +36,7 @@ export const Header = () => {
         </Link>
       </Links>
       <RightBar>
-        <Username>Гость</Username>
+        <Username>Валера</Username>
         <Links>
           <Link onClick={() => setSound(!sound)}>
             {sound ? <RiVolumeUpLine /> : <RiVolumeMuteLine />}

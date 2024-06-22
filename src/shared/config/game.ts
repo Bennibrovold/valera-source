@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import BALOON from "../../assets/baloon.mp3";
 import { $up, setUp, store } from "../../pages/shop/shop";
 import { STORE_DATA_SAMPLE } from "../../pages/shop/shop.data";
+import { hasherator } from "../lib/hasherator";
 
 export const isDevelopment = process.env.NODE_ENV === "development";
 
@@ -24,9 +25,17 @@ $sound.watch((x) => {
   localStorage.setItem("sound", x.toString());
 });
 
-export const $score = createStore<number>(
-  parseInt(localStorage.getItem("score")) || 0
-);
+const initScore = () => {
+  if (
+    hasherator(localStorage.getItem("score")).toString() ===
+    localStorage.getItem("key")
+  ) {
+    return parseInt(localStorage.getItem("score"));
+  }
+  return 0;
+};
+
+export const $score = createStore<number>(initScore());
 export const setScore = createEvent<number>();
 export const addScore = createEvent<void>();
 
@@ -38,11 +47,6 @@ $score.on(addScore, (store) => {
     multiplayer += item.qnty * item.multiply;
   });
 
-  console.log(
-    parseFloat(store),
-    parseFloat(Math.floor(1 * parseFloat(multiplayer) * 10) / 10)
-  );
-
   return Number(
     parseFloat(store) +
       parseFloat(Math.floor(1 * parseFloat(multiplayer) * 10) / 10)
@@ -51,6 +55,7 @@ $score.on(addScore, (store) => {
 $score.on(setScore, (_, payload) => payload);
 $score.watch((x) => {
   localStorage.setItem("score", x.toString());
+  localStorage.setItem("key", hasherator(x.toString()));
 });
 
 export const $progress = createStore<number>(
