@@ -76,7 +76,7 @@ const Wrapper = styled.div`
 const Button = styled.button`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
@@ -84,7 +84,7 @@ const Button = styled.button`
   width: 100%;
 
   svg {
-    font-size: 50px;
+    font-size: 40px;
     flex-grow: 1;
   }
   &:hover {
