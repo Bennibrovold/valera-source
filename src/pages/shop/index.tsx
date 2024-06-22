@@ -1,47 +1,111 @@
 import { useUnit } from "effector-react";
 import { $up, buy } from "./shop";
+import { $up1, buy1 } from "./carshop";
 import styled, { css } from "styled-components";
-import React from "react";
+import React, { useState } from "react";
 import { $multiplayerShow, $score, isDevMedia } from "../../shared/config/game";
 import BUHLO from "../../assets/buhlo.webp";
 import { numberToSpecialFormat } from "../../shared/lib/format-number";
 
 export const Shop = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen2, setIsMenuOpen2] = useState(false);
+  const [isMenuOpen3, setIsMenuOpen3] = useState(false);
   const score = useUnit($score);
   const shop = useUnit($up);
+  const score1 = useUnit($score);
+  const shop1 = useUnit($up1);
   const multiplayer = useUnit($multiplayerShow);
-  const onClickFn = () => {};
+
+  const onClickFn = (menuName) => {
+    if (menuName === "Прокачка") {
+      setIsMenuOpen(true);
+      setIsMenuOpen2(false);
+      setIsMenuOpen3(false);
+    } else if (menuName === "Автосалон") {
+      setIsMenuOpen(false);
+      setIsMenuOpen2(true);
+      setIsMenuOpen3(false);
+    } else if (menuName === "Скины") {
+      setIsMenuOpen(false);
+      setIsMenuOpen2(false);
+      setIsMenuOpen3(true);
+    } else {
+      console.log(`Нажата кнопка ${menuName}`);
+    }
+  };
+
   return (
     <Wrapper>
       <Score>
-        <img src={isDevMedia(BUHLO)} />
+        <img src={isDevMedia(BUHLO)} alt="BUHLO" />
         {numberToSpecialFormat(score)}
       </Score>
-      <Multiplayer> X{multiplayer}</Multiplayer>
-      <Pack>
-        <Menu>
-          <Click onClick={onClickFn}>Прокачка</Click>
-          <Car onClick={onClickFn}>Автосалон</Car>
-          <Skin onClick={onClickFn}>Скины</Skin>
-        </Menu>
-      </Pack>
-      <Group>
-        {shop.map((x) => (
-          <Item
-            onClick={() => buy({ name: x.name, price: x.price })}
-            isEnough={x.price <= score}
-          >
-            <Title>
-              <Name>{x.name}</Name>
-              <Price> {numberToSpecialFormat(x.price)}</Price>
-            </Title>
-            <SubTitle>
-              <p>Куплено: {x.qnty}</p>
-              <p>+{x.multiply} за клик</p>
-            </SubTitle>
-          </Item>
-        ))}
-      </Group>
+      <Menu>
+        <Click onClick={() => onClickFn("Прокачка")}>Прокачка</Click>
+        <Car onClick={() => onClickFn("Автосалон")}>Автосалон</Car>
+        <Skin onClick={() => onClickFn("Скины")}>Скины</Skin>
+      </Menu>
+      {isMenuOpen && (
+        <Group>
+          {shop.map((x) => (
+            <Item
+              key={x.name}
+              onClick={() => buy({ name: x.name, price: x.price })}
+              isEnough={x.price <= score}
+            >
+              <Title>
+                <Name>{x.name}</Name>
+                <Price>{numberToSpecialFormat(x.price)}</Price>
+              </Title>
+              <SubTitle>
+                <p>Куплено: {x.qnty}</p>
+                <p>+{x.multiply} за клик</p>
+              </SubTitle>
+            </Item>
+          ))}
+        </Group>
+      )}
+      {isMenuOpen2 && (
+        <Group>
+          {shop1.map((x) => (
+            <Item
+              key={x.name}
+              onClick={() => buy1({ name: x.name, price: x.price })}
+              isEnough={x.price <= score1}
+            >
+              <Title>
+                <Name>{x.name}</Name>
+                <IMG>{x.image}</IMG>
+                <Price>{numberToSpecialFormat(x.price)}</Price>
+              </Title>
+              <SubTitle>
+                <p>Куплено: {x.qnty}</p>
+              </SubTitle>
+            </Item>
+          ))}
+        </Group>
+      )}
+
+      {isMenuOpen3 && (
+        <Group>
+          {shop.map((x) => (
+            <Item
+              key={x.name}
+              onClick={() => buy({ name: x.name, price: x.price })}
+              isEnough={x.price <= score}
+            >
+              <Title>
+                <Name>{x.name}</Name>
+                <Price>{numberToSpecialFormat(x.price)}</Price>
+              </Title>
+              <SubTitle>
+                <p>Куплено: {x.qnty}</p>
+              </SubTitle>
+            </Item>
+          ))}
+        </Group>
+      )}
     </Wrapper>
   );
 };
@@ -115,6 +179,7 @@ const Click = styled.div`
   border-radius: 44px;
   background-color: #2c2b2b;
   text-align: center;
+  cursor: pointer;
 `;
 const Car = styled.div`
   border-radius: 44px;
@@ -124,7 +189,8 @@ const Car = styled.div`
 `;
 const Pack = styled.div`
   height: 4px;
-  margin-bottom: 36px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   background: gray;
   width: 100%;
   cursor: pointer;
@@ -135,3 +201,5 @@ const Skin = styled.div`
   text-align: center;
   cursor: pointer;
 `;
+
+const IMG = styled.div``;

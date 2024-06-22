@@ -2,7 +2,9 @@ import { createEvent, createStore } from "effector";
 import { $score, setScore } from "../../shared/config/game";
 import { STORE_DATA_SAMPLE } from "./shop.data";
 
+
 export const store = STORE_DATA_SAMPLE;
+
 
 export const $up = createStore(
   JSON.parse(localStorage.getItem("store")) || store
