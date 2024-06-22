@@ -51,7 +51,11 @@ export const Actions = () => {
         </Button>
         <Button onClick={feedValeraFn}>
           <RiRestaurant2Fill />
-          <Price>{priceFeed}</Price>
+          {/* <Price>{priceFeed}</Price> */}
+        </Button>
+        <Button onClick={feedValeraFn}>
+          <RiRestaurant2Fill />
+          {/* <Price>{priceFeed}</Price> */}
         </Button>
       </Helper>
     </Wrapper>
@@ -84,7 +88,7 @@ const Button = styled.button`
   width: 100%;
 
   svg {
-    font-size: 40px;
+    font-size: 24px;
     flex-grow: 1;
   }
   &:hover {

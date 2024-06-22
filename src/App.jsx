@@ -13,6 +13,7 @@ import "./assets/font/font.css";
 import { $location, $locations } from "./shared/config/location";
 import { Shop } from "./pages/shop";
 import Div100vh from "react-div-100vh";
+import { GameHistory } from "./features/game-history";
 
 function App() {
   const screen = useUnit($screen);
@@ -35,6 +36,7 @@ function App() {
         Связь с разработчиком:{" "}
         <a href="https://t.me/hellmorphin">@Hellmorphin</a>. Версия 1.0.3
       </DeveloperInfo>
+      <GameHistory />
     </Wrapper>
   );
 }

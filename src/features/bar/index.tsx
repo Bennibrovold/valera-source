@@ -12,7 +12,7 @@ export const BarUI = ({ count, Icon, color }) => {
 const Wrapper = styled.div<{ count: number; color: string }>`
   position: relative;
   height: 80px;
-  width: 20px;
+  width: 24px;
   border-radius: 8px;
   background-color: #2c2b2b;
   display: flex;
@@ -23,7 +23,7 @@ const Wrapper = styled.div<{ count: number; color: string }>`
     position: absolute;
 
     height: ${(p) => p.count + "%"};
-    width: 20px;
+    width: 24px;
     border-radius: 8px;
     background-color: ${(p) => p.color};
     display: flex;
@@ -35,5 +35,7 @@ const Wrapper = styled.div<{ count: number; color: string }>`
     position: relative;
     margin-top: 4px;
     z-index: 2;
+    width: 20px;
+    height: 20px;
   }
 `;

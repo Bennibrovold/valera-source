@@ -19,7 +19,7 @@ import { RiHealthBookLine, RiHeart3Line, RiZzzFill } from "react-icons/ri";
 import { GiIceCreamScoop, GiHealthNormal } from "react-icons/gi";
 import { addEntities } from "./models/entities";
 import { BarUI } from "../../features/bar";
-import { FaRegSmile } from "react-icons/fa";
+import { FaGrinHearts, FaRegSmile } from "react-icons/fa";
 import { IoFastFoodSharp } from "react-icons/io5";
 
 const audio = new Audio();
@@ -77,6 +77,7 @@ export const Main = () => {
           <Multiplayer> X{multiplayer}</Multiplayer>
         </ScoreWrapper>
         <Bar>
+          <BarUI count="100" Icon={FaGrinHearts} color="purple" />
           <BarUI count="80" Icon={RiZzzFill} color="#007ca6" />
           <BarUI count="100" Icon={IoFastFoodSharp} color="green" />
 
@@ -152,8 +153,8 @@ const Circle = styled.div`
 const Bar = styled.div`
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
 `;
 
 const Healbar = styled.div`
