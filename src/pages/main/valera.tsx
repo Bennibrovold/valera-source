@@ -1,28 +1,26 @@
-import React, { useEffect } from "react";
+import React from "react";
 import VALERA from "../../assets/valera_default.png";
-import VALERA2 from "../../assets/sticker2.webp";
-import VALERA3 from "../../assets/sticker3.webp";
 import styled, { css } from "styled-components";
-import {
-  $priceFeed,
-  $progress,
-  addScore,
-  isDevelopment,
-} from "../../shared/config/game";
+import { $priceFeed, addScore, isDevelopment } from "../../shared/config/game";
 import { useUnit } from "effector-react";
 import { addEntities } from "./models/entities";
 import { Entities } from "./entities";
 import { media } from "../../shared/lib/media";
+import { useMatchMedia } from "../../shared/lib/use-match-media";
 
 export const ValeraUI = () => {
+  const sm = useMatchMedia((x) => x.less.sm);
   const [isScale, setIsScale] = React.useState(false);
-  const progress = useUnit($progress);
   const feed = useUnit($priceFeed);
-  const IMAGES = [VALERA, VALERA2, VALERA3];
 
   const onClickFn = () => {
     addScore();
     addEntities();
+  };
+
+  const MobileTouch = () => {
+    onClickFn();
+    setIsScale(true);
   };
 
   return (
@@ -30,18 +28,18 @@ export const ValeraUI = () => {
       id="entities-field"
       scaleFactor={feed}
       isScale={isScale}
-      onClick={onClickFn}
+      onClick={sm ? () => {} : onClickFn}
       onMouseDown={() => setIsScale(true)}
       onMouseUp={() => setIsScale(false)}
-      onTouchStart={() => setIsScale(true)}
+      onTouchStart={MobileTouch}
       onTouchEnd={() => setIsScale(false)}
     >
       <Entities />
       <img
         src={
           isDevelopment
-            ? IMAGES[progress]
-            : `https://bennibrovold.github.io/valera-simulator/${IMAGES[progress]}`
+            ? VALERA
+            : `https://bennibrovold.github.io/valera-simulator/${VALERA}`
         }
       />
     </Wrapper>
@@ -60,6 +58,9 @@ const Wrapper = styled.div<{ isScale: boolean; scaleFactor?: number }>`
 
   height: 500px;
   user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 
   img {
     touch-action: manipulation;

@@ -15,9 +15,12 @@ import BUHLO from "../../assets/buhlo.webp";
 import FEED from "../../assets/feed.mp3";
 import TUTUTU from "../../assets/tututu.mp3";
 import { Actions } from "./actions";
-import { RiZzzFill } from "react-icons/ri";
+import { RiHealthBookLine, RiHeart3Line, RiZzzFill } from "react-icons/ri";
 import { GiIceCreamScoop, GiHealthNormal } from "react-icons/gi";
 import { addEntities } from "./models/entities";
+import { BarUI } from "../../features/bar";
+import { FaRegSmile } from "react-icons/fa";
+import { IoFastFoodSharp } from "react-icons/io5";
 
 const audio = new Audio();
 audio.preload = "auto";
@@ -65,21 +68,21 @@ export const Main = () => {
 
   return (
     <Wrapper>
-      <ScoreWrapper>
-        <Score>
-          {score}
-          <img src={isDevMedia(BUHLO)} />
-        </Score>
-        <Multiplayer> X{multiplayer}</Multiplayer>
-      </ScoreWrapper>
-      <Bar>
-        <Healbar>
-          <GiHealthNormal />
-        </Healbar>
-        <Sleepbar>
-          <RiZzzFill />
-        </Sleepbar>
-      </Bar>
+      <GameInfo>
+        <ScoreWrapper>
+          <Score>
+            {score}
+            <img src={isDevMedia(BUHLO)} />
+          </Score>
+          <Multiplayer> X{multiplayer}</Multiplayer>
+        </ScoreWrapper>
+        <Bar>
+          <BarUI count="80" Icon={RiZzzFill} color="#007ca6" />
+          <BarUI count="100" Icon={IoFastFoodSharp} color="green" />
+
+          <BarUI count="80" Icon={FaRegSmile} color="#a69800" />
+        </Bar>
+      </GameInfo>
       <h1>
         <Circle onClick={onClickFn}>
           <RiZzzFill />
@@ -149,7 +152,7 @@ const Circle = styled.div`
 const Bar = styled.div`
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 `;
 
@@ -161,4 +164,9 @@ const Healbar = styled.div`
 const Sleepbar = styled.div`
   border-radius: 44px;
   background-color: #2c2b2b;
+`;
+
+const GameInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;

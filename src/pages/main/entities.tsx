@@ -49,13 +49,25 @@ const animation = keyframes`
 
 const Entity = styled.div<{ x: number; y: number }>`
   position: absolute;
+  pointer-events: none;
   font-size: 16px;
   left: ${(p) => p.x}px;
   top: ${(p) => p.y}px;
   z-index: 10;
   animation: ${animation} 1s;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 
   img {
     width: 24px;
+    user-drag: none;
+    user-select: none;
+    pointer-events: none;
+    -webkit-user-drag: none;
+
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
   }
 `;

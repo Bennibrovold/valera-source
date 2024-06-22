@@ -12,6 +12,7 @@ import { Header } from "./layout/header";
 import "./assets/font/font.css";
 import { $location, $locations } from "./shared/config/location";
 import { Shop } from "./pages/shop";
+import Div100vh from "react-div-100vh";
 
 function App() {
   const screen = useUnit($screen);
@@ -48,9 +49,8 @@ const DeveloperInfo = styled.div`
   font-size: 10px;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled(Div100vh)`
   width: 100%;
-  height: 100vh;
   background-image: url(${(p) => isDevMedia(p.location || BG)});
   background-repeat: no-repeat;
   background-size: cover;
@@ -58,6 +58,10 @@ const Wrapper = styled.div`
 
   display: flex;
   flex-direction: column;
+
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 `;
 
 export default App;

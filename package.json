@@ -13,6 +13,7 @@
     "effector": "^23.2.2",
     "effector-react": "^23.2.1",
     "react": "^18.2.0",
+    "react-div-100vh": "^0.7.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
     "styled-components": "^6.1.11",
