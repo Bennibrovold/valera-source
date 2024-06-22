@@ -30,7 +30,7 @@ const initScore = () => {
     hasherator(localStorage.getItem("score")).toString() ===
     localStorage.getItem("key")
   ) {
-    return parseInt(localStorage.getItem("score"));
+    return parseFloat(localStorage.getItem("score"));
   }
   return 0;
 };
@@ -77,8 +77,6 @@ buyUpgrade.watch((_) => {
   const progress = $progress.getState();
   const prices = $prices.getState();
   const price = prices[progress];
-
-  console.log(parseFloat(score) - parseFloat(price));
 
   if (price <= score) {
     setScore((parseFloat(score) - parseFloat(price)).toFixed(2));
