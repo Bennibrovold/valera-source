@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect, useRef } from "react";
+import styled, { css } from "styled-components";
 import backgroundImage from "../../assets/carta.png";
+import Div100vh from "react-div-100vh";
 
-const Viewport = styled.div`
+const Viewport = styled(Div100vh)`
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  overflow: scroll;
   position: relative;
   cursor: grab;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ImageContainer = styled.div`
@@ -18,70 +23,120 @@ const ImageContainer = styled.div`
   position: absolute;
   width: 2000px;
   height: 2000px;
+  zoom: 5;
 `;
 
+function getRandomColor() {
+  // Генерация случайного числа между 0 и 255 для каждого из RGB компонентов
+  let r = Math.floor(Math.random() * 256); // Красный
+  let g = Math.floor(Math.random() * 256); // Зеленый
+  let b = Math.floor(Math.random() * 256); // Синий
+
+  // Преобразование значений RGB в строку HEX формата
+  let color =
+    "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+
+  return color;
+}
+
 export const Map = () => {
-  const [isDragging, setIsDragging] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [startDragPoint, setStartDragPoint] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e) =>
-      isDragging && handleDragMove(e.clientX, e.clientY);
-    const handleMouseUp = () => setIsDragging(false);
-    const handleTouchMove = (e) =>
-      isDragging && handleDragMove(e.touches[0].clientX, e.touches[0].clientY);
-    const handleTouchEnd = () => setIsDragging(false);
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("touchmove", handleTouchMove, { passive: false });
-    window.addEventListener("touchend", handleTouchEnd);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
-    };
-  }, [isDragging, startDragPoint]);
-
-  const handleDragStart = (clientX, clientY) => {
-    setIsDragging(true);
-    setStartDragPoint({ x: clientX, y: clientY });
-  };
-
-  const handleDragMove = (clientX, clientY) => {
-    const dx = clientX - startDragPoint.x;
-    const dy = clientY - startDragPoint.y;
-
-    setPosition((prevPosition) => {
-      const newX = Math.max(
-        Math.min(prevPosition.x + dx, 0),
-        window.innerWidth - 2000
-      );
-      const newY = Math.max(
-        Math.min(prevPosition.y + dy, 0),
-        window.innerHeight - 2000
-      );
-      return { x: newX, y: newY };
-    });
-
-    setStartDragPoint({ x: clientX, y: clientY });
-  };
+  const store = [
+    {
+      width: "20%",
+      title: "Город",
+      active: false,
+      price: 500000,
+    },
+    {
+      width: "60%",
+      title: "Помойка",
+      active: false,
+      price: 500000,
+    },
+    {
+      width: "20%",
+      title: "Площадка",
+      active: false,
+      price: 500000,
+    },
+    {
+      width: "30%",
+      title: "Больница",
+      active: false,
+      price: 500000,
+    },
+    {
+      width: "30%",
+      title: "Отель",
+      active: true,
+      price: 500000,
+    },
+    {
+      width: "40%",
+      title: "Квартира в центре Владивостока",
+      active: true,
+      price: 500000,
+    },
+    {
+      width: "50%",
+      title: "Квартира на угольной",
+      active: false,
+      price: 500000,
+    },
+    {
+      width: "25%",
+      title: "Автосалон",
+      active: false,
+      price: 500000,
+    },
+    {
+      width: "25%",
+      title: "Полицейский участок",
+      active: false,
+      price: 500000,
+    },
+  ];
 
   return (
-    <Viewport
-      onMouseDown={(e) => handleDragStart(e.clientX, e.clientY)}
-      onTouchStart={(e) =>
-        handleDragStart(e.touches[0].clientX, e.touches[0].clientY)
-      }
-    >
-      <ImageContainer
-        style={{
-          transform: `translate(${position.x}px, ${position.y}px)`,
-        }}
-      />
-    </Viewport>
+    <Wrapper>
+      {store.map((x) => (
+        <Block style={{ width: `calc(${x.width} - 8px)` }}>
+          <Bg color={getRandomColor()} active={x.active}>
+            {x.title} {!x.active && x.price}
+          </Bg>
+        </Block>
+      ))}
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const Block = styled.div`
+  padding: 4px;
+`;
+
+const Bg = styled.div<{ color?: string; active?: boolean }>`
+  height: 300px;
+  background-color: ${(p) => p.color};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 30px;
+  border-radius: 10px;
+  opacity: 0.5;
+
+  ${({ active }) =>
+    active &&
+    css`
+      cursor: pointer;
+      opacity: 1;
+      &:hover {
+        background-color: blue;
+      }
+    `}
+`;

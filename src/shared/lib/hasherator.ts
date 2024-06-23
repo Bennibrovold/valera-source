@@ -1,7 +1,6 @@
 export const hasherator = (string) => {
-  
-  if(!string){
-    return 0
+  if (!string) {
+    return 0;
   }
   let hash = 0;
 
