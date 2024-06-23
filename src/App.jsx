@@ -6,6 +6,8 @@ import { Menu } from "./pages/menu";
 import { Main } from "./pages/main/main";
 import styled from "styled-components";
 import { ProfilePage } from "./pages/profile/profile";
+import { Games } from "./pages/mini";
+import { Map } from "./pages/map";
 import { isDevMedia } from "./shared/config/game";
 import BG from "./assets/bg.png";
 import { Header } from "./layout/header";
@@ -29,6 +31,10 @@ function App() {
         <ProfilePage />
       ) : screen === "menu" ? (
         <Menu />
+      ) : screen === "mini" ? (
+        <Games />
+      ) : screen === "map" ? (
+        <Map />
       ) : (
         <Main />
       )}

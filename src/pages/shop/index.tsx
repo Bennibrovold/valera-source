@@ -76,11 +76,14 @@ export const Shop = () => {
             >
               <Title>
                 <Name>{x.name}</Name>
-                <IMG>{x.image}</IMG>
+                <IMG>
+                  <img src={x.image} />
+                </IMG>
                 <Price>{numberToSpecialFormat(x.price)}</Price>
               </Title>
               <SubTitle>
                 <p>Куплено: {x.qnty}</p>
+                <p>+{x.multiply} Авто прибыль</p>
               </SubTitle>
             </Item>
           ))}
@@ -202,4 +205,9 @@ const Skin = styled.div`
   cursor: pointer;
 `;
 
-const IMG = styled.div``;
+const IMG = styled.div`
+  display: Flex;
+  width: 100px;
+  height: 100px;
+  padding-right: 85px;
+`;

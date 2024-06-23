@@ -16,6 +16,7 @@ import {
   RiRestaurant2Fill,
   RiShoppingBasket2Line,
 } from "react-icons/ri";
+import { GrGamepad } from "react-icons/gr";
 import { setScreen } from "../../shared/config/router";
 
 const audio = new Audio();
@@ -46,11 +47,11 @@ export const Actions = () => {
         <Button onClick={() => setScreen("shop")}>
           <RiShoppingBasket2Line />
         </Button>
-        <Button onClick={() => {}}>
+        <Button onClick={() => setScreen("map")}>
           <RiMap2Line />
         </Button>
-        <Button onClick={feedValeraFn}>
-          <RiRestaurant2Fill />
+        <Button onClick={() => setScreen("mini")}>
+          <GrGamepad />
           {/* <Price>{priceFeed}</Price> */}
         </Button>
         <Button onClick={feedValeraFn}>
