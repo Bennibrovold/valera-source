@@ -18,10 +18,11 @@ import { Actions } from "./actions";
 import { RiHealthBookLine, RiHeart3Line, RiZzzFill } from "react-icons/ri";
 import { GiIceCreamScoop, GiHealthNormal } from "react-icons/gi";
 import { addEntities } from "./models/entities";
-import { BarUI } from "../../features/bar";
+import { BarUI, Lvlbar } from "../../features/bar";
 import { FaGrinHearts, FaRegSmile } from "react-icons/fa";
 import { IoFastFoodSharp } from "react-icons/io5";
 import { numberToSpecialFormat } from "../../shared/lib/format-number";
+import { $level, $XPprogress } from "../../shared/config/game";
 
 const audio = new Audio();
 audio.preload = "auto";
@@ -38,6 +39,8 @@ export const Main = () => {
   const dead = useUnit($dead);
   const sound = useUnit($sound);
   const multiplayer = useUnit($multiplayerShow);
+  const level = useUnit($level);
+  const XPprogress = useUnit($XPprogress);
 
   useEffect(() => {
     setInit(true);
@@ -85,6 +88,10 @@ export const Main = () => {
           <BarUI count="80" Icon={FaRegSmile} color="#a69800" />
         </Bar>
       </GameInfo>
+      <Xpbar>
+        lvl: {level}
+        <Lvlbar count={XPprogress} color="#ebe5a1" />
+      </Xpbar>
       <h1>
         <Circle onClick={onClickFn}>
           <RiZzzFill />
@@ -100,6 +107,12 @@ export const Main = () => {
 };
 
 const Multiplayer = styled.div``;
+
+const Xpbar = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+`;
 
 const Score = styled.div`
   display: flex;

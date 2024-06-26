@@ -5,6 +5,15 @@ import { $up, setUp, store } from "../../pages/shop/shop";
 import { STORE_DATA_SAMPLE } from "../../pages/shop/shop.data";
 import { hasherator } from "../lib/hasherator";
 
+
+
+export const setXPLevel = createEvent<number>();
+export const setXPProgress = createEvent<number>();
+
+export const $level = createStore(1).on(setXPLevel, (_, level) => level);
+export const $XPprogress = createStore(0).on(setXPProgress, (_, progress) => progress);
+
+
 export const isDevelopment = process.env.NODE_ENV === "development";
 
 export const isDevMedia = (link) => {
@@ -160,3 +169,5 @@ export const $multiplayerShow = combine([$multiplayer, $up]).map((store) => {
 
   return multiplayer_;
 });
+
+
