@@ -27,7 +27,7 @@ $XP.watch((xp) => {
   if (xp >= lvlexp) {
     setXP(xp - lvlexp);
     setLvl(lvl + 1);
-    setLvlExp(lvlexp * 1.15);
+    setLvlExp(lvlexp * 1.65);
   }
 });
 
