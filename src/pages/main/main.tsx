@@ -25,7 +25,6 @@ import { BarUI, Lvlbar } from "../../features/bar";
 import { FaGrinHearts, FaRegSmile } from "react-icons/fa";
 import { IoFastFoodSharp } from "react-icons/io5";
 import { numberToSpecialFormat } from "../../shared/lib/format-number";
-import { $level, $XPprogress } from "../../shared/config/game";
 
 const audio = new Audio();
 audio.preload = "auto";
@@ -58,21 +57,36 @@ export const Main = () => {
     setDead(false);
   }, [dead]);
 
-  useEffect(() => {
-    if (!score || (init && sound)) {
-      tututu.play();
-    }
-  }, [score, init]);
+  const [count, setCount] = useState(100);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    if (!sound) {
-      tututu.volume = 0;
-    } else {
-      tututu.volume = 1;
-    }
-  }, [sound]);
+    const decreaseInterval = setInterval(() => {
+      setCount((prevCount) => {
+        const newCount = prevCount - 5;
+        return newCount > 0 ? newCount : 0;
+      });
+    }, 300000);
 
-  const onClickFn = () => {};
+    let restoreInterval;
+    if (!isVisible) {
+      restoreInterval = setInterval(() => {
+        setCount((prevCount) => {
+          const newCount = prevCount + 10;
+          return newCount <= 100 ? newCount : 100;
+        });
+      }, 10000);
+    }
+
+    return () => {
+      clearInterval(decreaseInterval);
+      clearInterval(restoreInterval);
+    };
+  }, [isVisible]);
+
+  const onClickFn = () => {
+    setIsVisible(!isVisible);
+  };
 
   return (
     <Wrapper>
@@ -86,7 +100,7 @@ export const Main = () => {
         </ScoreWrapper>
         <Bar>
           <BarUI count="100" Icon={FaGrinHearts} color="purple" />
-          <BarUI count="80" Icon={RiZzzFill} color="#007ca6" />
+          <BarUI count={count} Icon={RiZzzFill} color="#007ca6" />
           <BarUI count="100" Icon={IoFastFoodSharp} color="green" />
 
           <BarUI count="80" Icon={FaRegSmile} color="#a69800" />
@@ -100,7 +114,7 @@ export const Main = () => {
         <Circle onClick={onClickFn}>
           <RiZzzFill />
         </Circle>
-        <ValeraUI />
+        {isVisible && <ValeraUI />}
         <Circle>
           <GiIceCreamScoop />
         </Circle>
@@ -116,6 +130,7 @@ const Xpbar = styled.div`
   display: flex;
   justify-content: center;
   gap: 8px;
+  margin-top: 25px;
 `;
 
 const Score = styled.div`
@@ -151,7 +166,7 @@ const ScoreWrapper = styled.div``;
 
 const Circle = styled.div`
   display: flex;
-  width: 44px;
+  width: 66px;
   height: 44px;
 
   border-radius: 44px;
