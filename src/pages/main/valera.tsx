@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import VALERA from "../../assets/valera_default.png";
 import styled, { css } from "styled-components";
-import { $priceFeed, addScore, isDevelopment } from "../../shared/config/game";
+import {
+  $priceFeed,
+  addScore,
+  addXP,
+  isDevelopment,
+  setXP,
+} from "../../shared/config/game";
 import { useUnit } from "effector-react";
 import { addEntities } from "./models/entities";
 import { Entities } from "./entities";
@@ -13,9 +19,14 @@ export const ValeraUI = () => {
   const [isScale, setIsScale] = React.useState(false);
   const feed = useUnit($priceFeed);
 
+  const handleButtonClick = () => {
+    addXP(5);
+  };
+
   const onClickFn = () => {
     addScore();
     addEntities();
+    handleButtonClick();
   };
 
   const MobileTouch = () => {
