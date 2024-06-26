@@ -22,6 +22,7 @@ const ShowCase = styled.div`
 `
 
 const ShowCaseHeader = styled.div`
+	margin-top:25px;
 	font-size:72px;
 `
 
