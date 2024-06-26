@@ -14,6 +14,7 @@ import {
   isDevMedia,
   setDead,
   $priceFeed,
+  feedValera,
 } from "../../shared/config/game";
 import BUHLO from "../../assets/buhlo.webp";
 import FEED from "../../assets/feed.mp3";
@@ -26,10 +27,8 @@ import { BarUI, Lvlbar } from "../../features/bar";
 import { FaGrinHearts, FaRegSmile } from "react-icons/fa";
 import { IoFastFoodSharp } from "react-icons/io5";
 import { numberToSpecialFormat } from "../../shared/lib/format-number";
+import Swal from "sweetalert2";
 
-const audio = new Audio();
-audio.preload = "auto";
-audio.src = isDevMedia(FEED);
 const tututu = new Audio();
 tututu.preload = "auto";
 tututu.src = isDevMedia(TUTUTU);
@@ -51,8 +50,6 @@ export const Main = () => {
   }, []);
 
   useEffect(() => {
-    audio.pause();
-    audio.currentTime = 0;
     tututu.pause();
     tututu.currentTime = 0;
     setDead(false);
@@ -67,7 +64,7 @@ export const Main = () => {
         const newCount = prevCount - 5;
         return newCount > 0 ? newCount : 0;
       });
-    }, 300000);
+    }, 200000);
 
     let restoreInterval;
     if (!isVisible) {
@@ -76,7 +73,7 @@ export const Main = () => {
           const newCount = prevCount + 10;
           return newCount <= 100 ? newCount : 100;
         });
-      }, 10000);
+      }, 1500);
     }
 
     return () => {
@@ -89,35 +86,43 @@ export const Main = () => {
     setIsVisible(!isVisible);
   };
 
-  const [count2, setCount2] = useState(100);
-  const [isEat, setIsEat] = useState(true);
-
-  const audio = new Audio("path_to_your_audio_file.mp3");
+  const [eat, setEat] = useState(100);
 
   useEffect(() => {
     const decreaseInterval = setInterval(() => {
-      setCount2((prevCount) => {
+      setEat((prevCount) => {
         const newCount = prevCount - 5;
         return newCount > 0 ? newCount : 0;
       });
-    }, 220000);
+    }, 180000);
 
-    return () => clearInterval(decreaseInterval);
-  }, [isEat]);
+    return () => {
+      clearInterval(decreaseInterval);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (eat === 0) {
+      const timer = setTimeout(() => {
+        if (eat === 0) {
+          Swal.fire({
+            title: "Внимание!",
+            text: "Валера помер от голодухи",
+            icon: "warning",
+            confirmButtonText: "Ок",
+          });
+        }
+      }, 60000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [eat]);
 
   const onClickFg = () => {
-    if (score >= priceFeed) {
-      setCount2((prevCount) => {
-        const newCount = prevCount + 20;
-        return newCount <= 100 ? newCount : 100;
-      });
-
-      if (sound) {
-        audio.pause();
-        audio.currentTime = 0;
-        audio.play();
-      }
-    }
+    setEat((prevCount) => {
+      const newCount = prevCount + 20;
+      return newCount <= 100 ? newCount : 100;
+    });
   };
 
   return (
@@ -133,7 +138,7 @@ export const Main = () => {
         <Bar>
           <BarUI count="100" Icon={FaGrinHearts} color="purple" />
           <BarUI count={count} Icon={RiZzzFill} color="#007ca6" />
-          <BarUI count={count2} Icon={IoFastFoodSharp} color="green" />
+          <BarUI count={eat} Icon={IoFastFoodSharp} color="green" />
 
           <BarUI count="80" Icon={FaRegSmile} color="#a69800" />
         </Bar>
