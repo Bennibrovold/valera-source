@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import VALERA from '../../assets/valera_default.png'
+import valeraPic from '../../assets/valera_default.png'
+import bomjPic from '../../assets/bomj.png'
 import { $priceFeed, addScore, isDevelopment } from '../../shared/config/game'
 
 const Wrapper  = styled.div`
@@ -10,28 +11,31 @@ const Wrapper  = styled.div`
     justify-content:center;
 `
 const ShowCase = styled.div`
-    display:flex;
-    flex-direction:column;
-    background-color:green;
-    height:90vh;
-    width:60vh;
-    gap:2px;
+	display: flex;
+	flex-direction: column;
+	background-color: green;
+	height: 90vh;
+	width: 60vh;
+	gap: 2px;
+	position: relative;
+	align-items:center;
 `
 
 const ShowCaseHeader = styled.div`
-    border:3px solid black;
-    display:flex;
-    justify-content:center;
+	margin-top:25px;
+	font-size:72px;
 `
 
 const ShowCasePic = styled.div`
-    
+	margin-left: 50px;
 `
 
 const ShowCaseMoney = styled.div`
-	border: 3px solid black;
-	display: flex;
-	justify-content: center;
+	display:block;
+	font-size:60px;
+	position:absolute;
+	bottom:0px;
+	margin-bottom:50px;
 `
 
 
@@ -47,12 +51,20 @@ export const Games = () => {
 				<Wrapper>
 					<ShowCase>
 						<ShowCaseHeader>{'valerka'}</ShowCaseHeader>
-						<ShowCasePic> valerka img</ShowCasePic>
+						<ShowCasePic>
+							<img
+								style={{ objectFit: 'contain', width: '500px' }}
+								src={valeraPic}
+							/>
+						</ShowCasePic>
 						<ShowCaseMoney>{random_money}</ShowCaseMoney>
 					</ShowCase>
 					<ShowCase>
-						<ShowCaseHeader>{'enemy_name'}</ShowCaseHeader>
-						<ShowCasePic>enemy img</ShowCasePic>
+						<ShowCaseHeader>{'bomj'}</ShowCaseHeader>
+						<ShowCasePic>
+							<img
+								style={{ objectFit: 'contain', width: '300px', marginTop: '150px' }}
+								src={bomjPic} /></ShowCasePic>
 						<ShowCaseMoney>{random_money}</ShowCaseMoney>
 					</ShowCase>
 				</Wrapper>
