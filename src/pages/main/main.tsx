@@ -107,7 +107,7 @@ export const Main = () => {
         </Bar>
       </GameInfo>
       <Xpbar>
-        lvl: {lvl}
+        lvl: 2{lvl}
         <Lvlbar count={(xp * 100) / lvlProgress} color="#ebe5a1" />
       </Xpbar>
       <h1>
