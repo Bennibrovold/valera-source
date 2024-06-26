@@ -13,6 +13,8 @@ import {
   $sound,
   isDevMedia,
   setDead,
+  $priceFeed,
+  feedValera,
 } from "../../shared/config/game";
 import BUHLO from "../../assets/buhlo.webp";
 import FEED from "../../assets/feed.mp3";
@@ -25,10 +27,7 @@ import { BarUI, Lvlbar } from "../../features/bar";
 import { FaGrinHearts, FaRegSmile } from "react-icons/fa";
 import { IoFastFoodSharp } from "react-icons/io5";
 import { numberToSpecialFormat } from "../../shared/lib/format-number";
-
-const audio = new Audio();
-audio.preload = "auto";
-audio.src = isDevMedia(FEED);
+import Swal from "sweetalert2";
 
 const tututu = new Audio();
 tututu.preload = "auto";
@@ -44,14 +43,13 @@ export const Main = () => {
   const lvl = useUnit($lvl);
   const lvlProgress = useUnit($lvlExp);
   const xp = useUnit($XP);
+  const priceFeed = useUnit($priceFeed);
 
   useEffect(() => {
     setInit(true);
   }, []);
 
   useEffect(() => {
-    audio.pause();
-    audio.currentTime = 0;
     tututu.pause();
     tututu.currentTime = 0;
     setDead(false);
@@ -66,7 +64,7 @@ export const Main = () => {
         const newCount = prevCount - 5;
         return newCount > 0 ? newCount : 0;
       });
-    }, 300000);
+    }, 200000);
 
     let restoreInterval;
     if (!isVisible) {
@@ -75,7 +73,7 @@ export const Main = () => {
           const newCount = prevCount + 10;
           return newCount <= 100 ? newCount : 100;
         });
-      }, 10000);
+      }, 1500);
     }
 
     return () => {
@@ -86,6 +84,45 @@ export const Main = () => {
 
   const onClickFn = () => {
     setIsVisible(!isVisible);
+  };
+
+  const [eat, setEat] = useState(100);
+
+  useEffect(() => {
+    const decreaseInterval = setInterval(() => {
+      setEat((prevCount) => {
+        const newCount = prevCount - 5;
+        return newCount > 0 ? newCount : 0;
+      });
+    }, 180000);
+
+    return () => {
+      clearInterval(decreaseInterval);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (eat === 0) {
+      const timer = setTimeout(() => {
+        if (eat === 0) {
+          Swal.fire({
+            title: "Внимание!",
+            text: "Валера помер от голодухи",
+            icon: "warning",
+            confirmButtonText: "Ок",
+          });
+        }
+      }, 60000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [eat]);
+
+  const onClickFg = () => {
+    setEat((prevCount) => {
+      const newCount = prevCount + 20;
+      return newCount <= 100 ? newCount : 100;
+    });
   };
 
   return (
@@ -101,13 +138,13 @@ export const Main = () => {
         <Bar>
           <BarUI count="100" Icon={FaGrinHearts} color="purple" />
           <BarUI count={count} Icon={RiZzzFill} color="#007ca6" />
-          <BarUI count="100" Icon={IoFastFoodSharp} color="green" />
+          <BarUI count={eat} Icon={IoFastFoodSharp} color="green" />
 
           <BarUI count="80" Icon={FaRegSmile} color="#a69800" />
         </Bar>
       </GameInfo>
       <Xpbar>
-        lvl: 2{lvl}
+        lvl: {lvl}
         <Lvlbar count={(xp * 100) / lvlProgress} color="#ebe5a1" />
       </Xpbar>
       <h1>
@@ -115,8 +152,9 @@ export const Main = () => {
           <RiZzzFill />
         </Circle>
         {isVisible && <ValeraUI />}
-        <Circle>
+        <Circle onClick={onClickFg}>
           <GiIceCreamScoop />
+          {<Price>{priceFeed}</Price>}
         </Circle>
       </h1>
       <Actions />
@@ -168,7 +206,7 @@ const Circle = styled.div`
   display: flex;
   width: 66px;
   height: 44px;
-
+  gap: 10px;
   border-radius: 44px;
   background-color: #2c2b2b;
 
@@ -203,4 +241,10 @@ const Sleepbar = styled.div`
 const GameInfo = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const Price = styled.div`
+  display: flex;
+  gap: 10px;
+  font-size: 10px;
 `;
