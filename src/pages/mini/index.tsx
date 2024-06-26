@@ -52,7 +52,7 @@ export const Games = () => {
 					</ShowCase>
 					<ShowCase>
 						<ShowCaseHeader>{'enemy_name'}</ShowCaseHeader>
-						<ShowCasePic>enemy img</ShowCasePic>
+						<ShowCasePic>ejejsdaj</ShowCasePic>
 						<ShowCaseMoney>{random_money}</ShowCaseMoney>
 					</ShowCase>
 				</Wrapper>
