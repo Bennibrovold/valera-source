@@ -5,14 +5,31 @@ import { $up, setUp, store } from "../../pages/shop/shop";
 import { STORE_DATA_SAMPLE } from "../../pages/shop/shop.data";
 import { hasherator } from "../lib/hasherator";
 
+export const $lvl = createStore<number>(1);
+export const setLvl = createEvent<number>();
+$lvl.on(setLvl, (_, payload) => payload);
 
+export const $XP = createStore<number>(0);
+export const addXP = createEvent<number>();
+export const setXP = createEvent<number>();
+$XP.on(setXP, (_, payload) => payload);
+$XP.on(addXP, (store, payload) => store + payload);
 
-export const setXPLevel = createEvent<number>();
-export const setXPProgress = createEvent<number>();
+export const $lvlExp = createStore<number>(100);
+export const setLvlExp = createEvent<number>();
+$lvlExp.on(setLvlExp, (_, payload) => payload);
+$XP.watch((xp) => {
+  const lvlexp = $lvlExp.getState();
+  const lvl = $lvl.getState();
 
-export const $level = createStore(1).on(setXPLevel, (_, level) => level);
-export const $XPprogress = createStore(0).on(setXPProgress, (_, progress) => progress);
+  console.log(xp, lvlexp);
 
+  if (xp >= lvlexp) {
+    setXP(xp - lvlexp);
+    setLvl(lvl + 1);
+    setLvlExp(lvlexp * 1.15);
+  }
+});
 
 export const isDevelopment = process.env.NODE_ENV === "development";
 
@@ -169,5 +186,3 @@ export const $multiplayerShow = combine([$multiplayer, $up]).map((store) => {
 
   return multiplayer_;
 });
-
-

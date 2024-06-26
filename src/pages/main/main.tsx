@@ -3,7 +3,10 @@ import styled from "styled-components";
 import { ValeraUI } from "./valera";
 import { useUnit } from "effector-react";
 import {
+  $XP,
   $dead,
+  $lvl,
+  $lvlExp,
   $multiplayer,
   $multiplayerShow,
   $score,
@@ -39,8 +42,9 @@ export const Main = () => {
   const dead = useUnit($dead);
   const sound = useUnit($sound);
   const multiplayer = useUnit($multiplayerShow);
-  const level = useUnit($level);
-  const XPprogress = useUnit($XPprogress);
+  const lvl = useUnit($lvl);
+  const lvlProgress = useUnit($lvlExp);
+  const xp = useUnit($XP);
 
   useEffect(() => {
     setInit(true);
@@ -89,8 +93,8 @@ export const Main = () => {
         </Bar>
       </GameInfo>
       <Xpbar>
-        lvl: {level}
-        <Lvlbar count={XPprogress} color="#ebe5a1" />
+        lvl: {lvl}
+        <Lvlbar count={(xp * 100) / lvlProgress} color="#ebe5a1" />
       </Xpbar>
       <h1>
         <Circle onClick={onClickFn}>

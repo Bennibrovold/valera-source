@@ -1,34 +1,26 @@
 import React, { useState } from "react";
 import VALERA from "../../assets/valera_default.png";
 import styled, { css } from "styled-components";
-import { $priceFeed, addScore, isDevelopment } from "../../shared/config/game";
+import {
+  $priceFeed,
+  addScore,
+  addXP,
+  isDevelopment,
+  setXP,
+} from "../../shared/config/game";
 import { useUnit } from "effector-react";
 import { addEntities } from "./models/entities";
 import { Entities } from "./entities";
 import { media } from "../../shared/lib/media";
 import { useMatchMedia } from "../../shared/lib/use-match-media";
 
-import {
-  $level,
-  $XPprogress,
-  setXPLevel,
-  setXPProgress,
-} from "../../shared/config/game";
-
 export const ValeraUI = () => {
   const sm = useMatchMedia((x) => x.less.sm);
   const [isScale, setIsScale] = React.useState(false);
   const feed = useUnit($priceFeed);
 
-  const level = useUnit($level);
-  const progress = useUnit($XPprogress);
-
   const handleButtonClick = () => {
-    setXPProgress(progress + 5);
-    if (progress + 10 >= 110) {
-      setXPLevel(level + 1);
-      setXPProgress(0);
-    }
+    addXP(5);
   };
 
   const onClickFn = () => {
