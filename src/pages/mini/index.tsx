@@ -17,7 +17,6 @@ const fadeInOut = keyframes`
   }
 `;
 
-// Определяем вторую анимацию (исчезновение)
 const fadeOut = keyframes`
   0% {
     opacity: 1;
@@ -27,7 +26,6 @@ const fadeOut = keyframes`
   }
 `;
 
-// Создаем стилизованные компоненты с анимациями
 const FadeDiv = styled.div`
   animation: ${fadeInOut} 3s ease-in-out;
   opacity: ${props => (props.isFading ? 1 : 0)};
@@ -47,7 +45,7 @@ export const Games = () => {
     const timer = setTimeout(() => {
       setIsFading(false);
       setIsCompletelyFading(true);
-    }, 3000); // 3 секунды для первой анимации
+    }, 3000); 
 
     return () => clearTimeout(timer);
   }, []);
