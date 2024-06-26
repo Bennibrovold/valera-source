@@ -13,6 +13,7 @@ import {
   $sound,
   isDevMedia,
   setDead,
+  $priceFeed,
 } from "../../shared/config/game";
 import BUHLO from "../../assets/buhlo.webp";
 import FEED from "../../assets/feed.mp3";
@@ -29,7 +30,6 @@ import { numberToSpecialFormat } from "../../shared/lib/format-number";
 const audio = new Audio();
 audio.preload = "auto";
 audio.src = isDevMedia(FEED);
-
 const tututu = new Audio();
 tututu.preload = "auto";
 tututu.src = isDevMedia(TUTUTU);
@@ -44,6 +44,7 @@ export const Main = () => {
   const lvl = useUnit($lvl);
   const lvlProgress = useUnit($lvlExp);
   const xp = useUnit($XP);
+  const priceFeed = useUnit($priceFeed);
 
   useEffect(() => {
     setInit(true);
@@ -88,6 +89,37 @@ export const Main = () => {
     setIsVisible(!isVisible);
   };
 
+  const [count2, setCount2] = useState(100);
+  const [isEat, setIsEat] = useState(true);
+
+  const audio = new Audio("path_to_your_audio_file.mp3");
+
+  useEffect(() => {
+    const decreaseInterval = setInterval(() => {
+      setCount2((prevCount) => {
+        const newCount = prevCount - 5;
+        return newCount > 0 ? newCount : 0;
+      });
+    }, 220000);
+
+    return () => clearInterval(decreaseInterval);
+  }, [isEat]);
+
+  const onClickFg = () => {
+    if (score >= priceFeed) {
+      setCount2((prevCount) => {
+        const newCount = prevCount + 20;
+        return newCount <= 100 ? newCount : 100;
+      });
+
+      if (sound) {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.play();
+      }
+    }
+  };
+
   return (
     <Wrapper>
       <GameInfo>
@@ -101,13 +133,13 @@ export const Main = () => {
         <Bar>
           <BarUI count="100" Icon={FaGrinHearts} color="purple" />
           <BarUI count={count} Icon={RiZzzFill} color="#007ca6" />
-          <BarUI count="100" Icon={IoFastFoodSharp} color="green" />
+          <BarUI count={count2} Icon={IoFastFoodSharp} color="green" />
 
           <BarUI count="80" Icon={FaRegSmile} color="#a69800" />
         </Bar>
       </GameInfo>
       <Xpbar>
-        lvl: 2{lvl}
+        lvl: {lvl}
         <Lvlbar count={(xp * 100) / lvlProgress} color="#ebe5a1" />
       </Xpbar>
       <h1>
@@ -115,8 +147,9 @@ export const Main = () => {
           <RiZzzFill />
         </Circle>
         {isVisible && <ValeraUI />}
-        <Circle>
+        <Circle onClick={onClickFg}>
           <GiIceCreamScoop />
+          {<Price>{priceFeed}</Price>}
         </Circle>
       </h1>
       <Actions />
@@ -168,7 +201,7 @@ const Circle = styled.div`
   display: flex;
   width: 66px;
   height: 44px;
-
+  gap: 10px;
   border-radius: 44px;
   background-color: #2c2b2b;
 
@@ -203,4 +236,10 @@ const Sleepbar = styled.div`
 const GameInfo = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const Price = styled.div`
+  display: flex;
+  gap: 10px;
+  font-size: 10px;
 `;
