@@ -21,14 +21,21 @@ import FEED from "../../assets/feed.mp3";
 import TUTUTU from "../../assets/tututu.mp3";
 import { Actions } from "./actions";
 import { RiHealthBookLine, RiHeart3Line, RiZzzFill } from "react-icons/ri";
-import { GiIceCreamScoop, GiHealthNormal } from "react-icons/gi";
+import { GiIceCreamScoop, GiHealthNormal, GiSchoolBag } from "react-icons/gi";
 import { addEntities } from "./models/entities";
 import { BarUI, Lvlbar } from "../../features/bar";
 import { FaGrinHearts, FaRegSmile } from "react-icons/fa";
 import { IoFastFoodSharp } from "react-icons/io5";
 import { numberToSpecialFormat } from "../../shared/lib/format-number";
 import Swal from "sweetalert2";
-
+import { $isModalOpen, openModal, closeModal } from "../modal/modal";
+import {
+  ModalWrapper,
+  ModalContent,
+  CloseButton,
+  InventoryGrid,
+  InventoryCell,
+} from "../modal/modalstyle";
 const tututu = new Audio();
 tututu.preload = "auto";
 tututu.src = isDevMedia(TUTUTU);
@@ -55,23 +62,23 @@ export const Main = () => {
     setDead(false);
   }, [dead]);
 
-  const [count, setCount] = useState(100);
+  const [sleep, setSleep] = useState(100);
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const decreaseInterval = setInterval(() => {
-      setCount((prevCount) => {
-        const newCount = prevCount - 5;
-        return newCount > 0 ? newCount : 0;
+      setSleep((prevSleep) => {
+        const newSleep = prevSleep - 5;
+        return newSleep > 0 ? newSleep : 0;
       });
     }, 200000);
 
     let restoreInterval;
     if (!isVisible) {
       restoreInterval = setInterval(() => {
-        setCount((prevCount) => {
-          const newCount = prevCount + 10;
-          return newCount <= 100 ? newCount : 100;
+        setSleep((prevSleep) => {
+          const newSleep = prevSleep + 10;
+          return newSleep <= 100 ? newSleep : 100;
         });
       }, 1500);
     }
@@ -81,6 +88,23 @@ export const Main = () => {
       clearInterval(restoreInterval);
     };
   }, [isVisible]);
+
+  useEffect(() => {
+    if (sleep === 0) {
+      const timer = setTimeout(() => {
+        if (sleep === 0) {
+          Swal.fire({
+            title: "Байка!",
+            text: "Валера хочет переспать!",
+            icon: "warning",
+            confirmButtonText: "Понятно",
+          });
+        }
+      }, 60000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [sleep]);
 
   const onClickFn = () => {
     setIsVisible(!isVisible);
@@ -106,10 +130,10 @@ export const Main = () => {
       const timer = setTimeout(() => {
         if (eat === 0) {
           Swal.fire({
-            title: "Внимание!",
+            title: "Байка!",
             text: "Валера помер от голодухи",
             icon: "warning",
-            confirmButtonText: "Ок",
+            confirmButtonText: "Понятно",
           });
         }
       }, 60000);
@@ -125,6 +149,24 @@ export const Main = () => {
     });
   };
 
+  const isModalOpen = useUnit($isModalOpen);
+  const [columns, setColumns] = useState(10);
+  useEffect(() => {
+    const updateColumns = () => {
+      const modalWidth = 500;
+      const cellWidth = 40;
+      const gridGap = 2;
+      const totalCellWidth = cellWidth + gridGap;
+      const newColumns = Math.floor(modalWidth / totalCellWidth);
+      setColumns(newColumns);
+    };
+
+    updateColumns();
+    window.addEventListener("resize", updateColumns);
+
+    return () => window.removeEventListener("resize", updateColumns);
+  }, []);
+
   return (
     <Wrapper>
       <GameInfo>
@@ -137,7 +179,7 @@ export const Main = () => {
         </ScoreWrapper>
         <Bar>
           <BarUI count="100" Icon={FaGrinHearts} color="purple" />
-          <BarUI count={count} Icon={RiZzzFill} color="#007ca6" />
+          <BarUI count={sleep} Icon={RiZzzFill} color="#007ca6" />
           <BarUI count={eat} Icon={IoFastFoodSharp} color="green" />
 
           <BarUI count="80" Icon={FaRegSmile} color="#a69800" />
@@ -148,21 +190,66 @@ export const Main = () => {
         <Lvlbar count={(xp * 100) / lvlProgress} color="#ebe5a1" />
       </Xpbar>
       <h1>
-        <Circle onClick={onClickFn}>
-          <RiZzzFill />
-        </Circle>
-        {isVisible && <ValeraUI />}
-        <Circle onClick={onClickFg}>
-          <GiIceCreamScoop />
-          {<Price>{priceFeed}</Price>}
-        </Circle>
+        <Global>
+          {isVisible && <ValeraUI />}
+          <CirclesContainer>
+            <Circle onClick={onClickFn}>
+              <RiZzzFill />
+            </Circle>
+            <div>
+              <Circle onClick={() => openModal()}>
+                <GiSchoolBag />
+              </Circle>
+              {isModalOpen && (
+                <ModalWrapper>
+                  <ModalContent>
+                    <CloseButton onClick={() => closeModal()}>
+                      &times;
+                    </CloseButton>
+                    <H2>Инвентарь</H2>
+                    <InventoryGrid columns={columns}>
+                      {Array.from({ length: 44 }, (_, index) => (
+                        <InventoryCell key={index} />
+                      ))}
+                    </InventoryGrid>
+                  </ModalContent>
+                </ModalWrapper>
+              )}
+            </div>
+            <Circle onClick={onClickFg}>
+              <GiIceCreamScoop />
+              <Price>{priceFeed}</Price>
+            </Circle>
+          </CirclesContainer>
+        </Global>
       </h1>
       <Actions />
     </Wrapper>
   );
 };
 
+const CirclesContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 const Multiplayer = styled.div``;
+const H2 = styled.div`
+  color: black;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  margin-top: 20px;
+`;
+
+const Global = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const Xpbar = styled.div`
   display: flex;
