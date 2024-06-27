@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Swal from "sweetalert2";
 import { HYSTORY } from "./history.data";
-import { $score, setHistoryScore, setScore } from "../../shared/config/game";
-import { useUnit } from "effector-react";
+import { setHistoryScore } from "../../shared/config/game";
 
 const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 export const GameHistory = () => {
-  const score = useUnit($score);
   useEffect(() => {
     setInterval(() => {
       const rand_val = rand(0, HYSTORY.length - 1);
@@ -20,7 +18,7 @@ export const GameHistory = () => {
       }).then((x) => {
         setHistoryScore(HYSTORY[rand_val].bonus);
       });
-    }, 10 * 60 * 1000);
+    }, 5000);
   }, []);
 
   return null;

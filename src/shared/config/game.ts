@@ -47,7 +47,6 @@ $sound.on(setSound, (_, payload) => payload);
 
 $sound.watch((x) => {
   const r = localStorage.getItem("sound");
-  console.log(x, r);
   localStorage.setItem("sound", x.toString());
 });
 
@@ -66,7 +65,10 @@ export const setScore = createEvent<number>();
 export const setHistoryScore = createEvent<number>();
 export const addScore = createEvent<void>();
 
-$score.on(setHistoryScore, (store, payload) => store + payload);
+$score.on(setHistoryScore, (store, payload) => {
+  console.log(store, payload, store + payload);
+  return store + payload;
+});
 
 $score.on(addScore, (store) => {
   let multiplayer = $multiplayer.getState();
@@ -77,11 +79,13 @@ $score.on(addScore, (store) => {
   });
 
   return Number(
-    parseFloat(store) +
-      parseFloat(Math.floor(1 * parseFloat(multiplayer) * 10) / 10)
-  ).toFixed(2);
+    Number(
+      parseFloat(store) +
+        parseFloat(Math.floor(1 * parseFloat(multiplayer) * 10) / 10)
+    ).toFixed(2)
+  );
 });
-$score.on(setScore, (_, payload) => payload);
+$score.on(setScore, (_, payload) => parseFloat(payload));
 $score.watch((x) => {
   localStorage.setItem("score", x.toString());
   localStorage.setItem("key", hasherator(x.toString()));
@@ -108,7 +112,7 @@ buyUpgrade.watch((_) => {
   const price = prices[progress];
 
   if (price <= score) {
-    setScore((parseFloat(score) - parseFloat(price)).toFixed(2));
+    setScore(parseFloat((parseFloat(score) - parseFloat(price)).toFixed(2)));
     setProgress(progress + 1);
   }
 });
@@ -146,7 +150,7 @@ feedValera.watch((x) => {
   const score = $score.getState();
   const price = $priceFeed.getState();
   if (score >= price) {
-    setScore((parseFloat(score) - parseFloat(price)).toFixed(2));
+    setScore(parseFloat((parseFloat(score) - parseFloat(price)).toFixed(2)));
     setPriceFeed(Math.floor(price * 1.14));
   }
 
