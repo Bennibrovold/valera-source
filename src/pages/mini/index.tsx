@@ -1,66 +1,84 @@
-import React, { useEffect, useState, useRef } from 'react'
-import styled, {keyframes} from 'styled-components'
-import valeraPic from '../../assets/valera_default.png'
-import bomjPic from '../../assets/bomj.png'
-import { $priceFeed, addScore, isDevelopment } from '../../shared/config/game'
-import { ShowCase } from './showcase'
-
-const fadeInOut = keyframes`
-  0% {
-    opacity: 1;
-  }
-  95% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
-
-const fadeOut = keyframes`
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-`;
-
-const FadeDiv = styled.div`
-  animation: ${fadeInOut} 3s ease-in-out;
-  opacity: ${props => (props.isFading ? 1 : 0)};
-  transition: opacity 0s ease-in-out 1s;
-`;
-
-const FadeOutDiv = styled.div`
-  animation: ${fadeOut} 0.7ms ease-in-out forwards;
-`;
-
+import React, { useRef } from 'react'
+import styled from 'styled-components'
+import { GAMES_DATA } from './games.data'
 
 export const Games = () => {
-     const [isFading, setIsFading] = useState(true);
-  const [isCompletelyFading, setIsCompletelyFading] = useState(false);
+	const wrapperRef = useRef(null)
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsFading(false);
-      setIsCompletelyFading(true);
-    }, 3000); 
 
-    return () => clearTimeout(timer);
-  }, []);
+	// Функция для прокрутки влево
+	const scrollLeft = () => {
+		if (wrapperRef.current) {
+			wrapperRef.current.scrollLeft -= 240 
+		}
+	}
 
-  return (
-    <>
-      {isCompletelyFading ? (
-        <FadeOutDiv>
-          <ShowCase/>
-        </FadeOutDiv>
-      ) : (
-        <FadeDiv isFading={isFading}>
-          <ShowCase/>
-        </FadeDiv>
-      )}
-    </>
-  );
-};
+	
+	const scrollRight = () => {
+		if (wrapperRef.current) {
+			wrapperRef.current.scrollLeft += 240 
+		}
+	}
+
+	const listItems = GAMES_DATA.map((game, index) => {
+		return (
+			<WrapperItem key={index}>
+				<div>{game.name}</div>
+				<div>{game.description}</div>
+				<div>{game.rules}</div>
+			</WrapperItem>
+		)
+	})
+
+	return (
+		<GlobalWrapper>
+			<Container>
+				<Button onClick={scrollLeft}>{'<'}</Button>
+				<Wrapper ref={wrapperRef}>{listItems}</Wrapper>
+				<Button onClick={scrollRight}> {'>'} </Button>
+			</Container>
+		</GlobalWrapper>
+	)
+}
+
+const Container = styled.div`
+	display: flex;
+	align-items: center;
+`
+
+const Button = styled.button`
+	background-color: teal;
+	color: white;
+	border: none;
+	padding: 10px;
+	cursor: pointer;
+	
+`
+
+const Wrapper = styled.div`
+	display: flex;
+	overflow-x: auto; 
+	white-space: nowrap;
+	width: 720px; // 240 
+	&::-webkit-scrollbar {
+		display: none; 
+	}
+`
+const GlobalWrapper = styled.div`
+	margin:0 auto;
+`
+
+const WrapperItem = styled.div`
+	flex: 0 0 auto; 
+	width: 200px; 
+	margin: 10px;
+	background-color: black;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+`
