@@ -42,9 +42,9 @@ export const Shop = () => {
         {numberToSpecialFormat(score)}
       </Score>
       <Menu>
-        <Click onClick={() => onClickFn("Прокачка")}>Прокачка</Click>
-        <Car onClick={() => onClickFn("Автосалон")}>Автосалон</Car>
-        <Skin onClick={() => onClickFn("Скины")}>Скины</Skin>
+        <Button onClick={() => onClickFn("Прокачка")}>Прокачка</Button>
+        <Button onClick={() => onClickFn("Автосалон")}>Автосалон</Button>
+        <Button onClick={() => onClickFn("Скины")}>Скины</Button>
       </Menu>
       {isMenuOpen && (
         <Group>
@@ -169,42 +169,26 @@ const Group = styled.div`
   height: calc(100vh - 180px);
   overflow-y: scroll;
 `;
-const Multiplayer = styled.div``;
 
 const Menu = styled.div`
   padding-top: 10px;
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+
   font-size: 20px;
+  gap: 6px;
 `;
-const Click = styled.div`
+const Button = styled.div`
   border-radius: 44px;
   background-color: #2c2b2b;
   text-align: center;
   cursor: pointer;
-  font-size: 12px;
-`;
-const Car = styled.div`
-  border-radius: 44px;
-  background-color: #2c2b2b;
-  text-align: center;
-  cursor: pointer;
-`;
-const Pack = styled.div`
-  height: 4px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  background: gray;
-  width: 100%;
-  cursor: pointer;
-`;
-const Skin = styled.div`
-  border-radius: 44px;
-  background-color: #2c2b2b;
-  text-align: center;
-  cursor: pointer;
+  font-size: 14px;
+  padding: 10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const IMG = styled.div`

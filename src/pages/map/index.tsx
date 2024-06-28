@@ -3,8 +3,8 @@ import styled, { css } from "styled-components";
 import { isDevMedia } from "../../shared/config/game";
 import { setLocation } from "../../shared/config/location";
 import { setScreen } from "../../shared/config/router";
-import musorka from "../../assets/pomoi.png";
-import garaj from "../../assets/garaj.png";
+import musorka from "../../assets/musorka2.png";
+import garaj from "../../assets/garaj2.png";
 import { CiCircleInfo } from "react-icons/ci";
 import { Modal } from "../../shared/ui/modal";
 import { useModal } from "../../shared/ui/modal/use-modal";
@@ -18,7 +18,7 @@ export const Map = () => {
       location: "trash",
       price: 0,
       image: musorka,
-      info: "пепега",
+      info: "Cтартовая локация, где валера начал двигаться уверенно на блотной ноге",
     },
     {
       width: "90%",
@@ -28,6 +28,7 @@ export const Map = () => {
       price: 15000,
       image: garaj,
       lvl: 15,
+      info: "На этой локации будет доступна покупка авто и добыча ресурсов будет увеличина",
     },
     {
       width: "90%",
