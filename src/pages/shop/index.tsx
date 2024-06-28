@@ -8,7 +8,7 @@ import BUHLO from "../../assets/buhlo.webp";
 import { numberToSpecialFormat } from "../../shared/lib/format-number";
 
 export const Shop = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
   const [isMenuOpen2, setIsMenuOpen2] = useState(false);
   const [isMenuOpen3, setIsMenuOpen3] = useState(false);
   const score = useUnit($score);

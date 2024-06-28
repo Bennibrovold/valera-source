@@ -1,79 +1,82 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
-import backgroundImage from "../../assets/carta.png";
+import { isDevMedia } from "../../shared/config/game";
 import { setLocation } from "../../shared/config/location";
 import { setScreen } from "../../shared/config/router";
-
-function getRandomColor() {
-  // Генерация случайного числа между 0 и 255 для каждого из RGB компонентов
-  let r = Math.floor(Math.random() * 256); // Красный
-  let g = Math.floor(Math.random() * 256); // Зеленый
-  let b = Math.floor(Math.random() * 256); // Синий
-
-  // Преобразование значений RGB в строку HEX формата
-  let color =
-    "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-
-  return color;
-}
+import musorka from "../../assets/pomoi.png";
+import garaj from "../../assets/garaj.png";
+import { CiCircleInfo } from "react-icons/ci";
+import { Modal } from "../../shared/ui/modal";
 
 export const Map = () => {
   const store = [
     {
-      width: "20%",
-      title: "Город",
-      active: false,
-      price: 500000,
-    },
-    {
-      width: "60%",
+      width: "90%",
       title: "Помойка",
       active: true,
       location: "trash",
       price: 0,
+      image: musorka,
+      info: "пепега",
     },
     {
-      width: "20%",
-      title: "Площадка",
-      active: false,
-      price: 500000,
-    },
-    {
-      width: "30%",
-      title: "Больница",
-      active: false,
-      price: 500000,
-    },
-    {
-      width: "30%",
-      title: "Отель",
-      active: false,
-      price: 500000,
-    },
-    {
-      width: "40%",
-      title: "Квартира в центре Владивостока",
-      active: false,
-      price: 500000,
-    },
-    {
-      width: "50%",
-      title: "Квартира на угольной",
-      active: false,
-      price: 500000,
-    },
-    {
-      width: "25%",
+      width: "90%",
       title: "Гараж",
       location: "garage",
       active: true,
-      price: 500,
+      price: 15000,
+      image: garaj,
+      lvl: 15,
     },
     {
-      width: "25%",
+      width: "90%",
+      title: "Площадка",
+      active: false,
+      price: 500000,
+      lvl: 20,
+    },
+    {
+      width: "90%",
+      title: "Больница",
+      active: false,
+      price: 500000,
+      lvl: 25,
+    },
+    {
+      width: "90%",
+      title: "Отель",
+      active: false,
+      price: 500000,
+      lvl: 30,
+    },
+    {
+      width: "90%",
+      title: "Квартира в центре Владивостока",
+      active: false,
+      price: 500000,
+      lvl: 35,
+    },
+    {
+      width: "90%",
+      title: "Квартира на угольной",
+      active: false,
+      price: 500000,
+      lvl: 40,
+    },
+
+    {
+      width: "90%",
       title: "Полицейский участок",
       active: false,
       price: 500000,
+      lvl: 45,
+    },
+    {
+      width: "90%",
+      title: "Полицейский участок",
+      active: false,
+      price: 500000,
+      lvl: 50,
     },
   ];
 
@@ -82,15 +85,29 @@ export const Map = () => {
     setScreen("game");
   };
 
+  const iconClickFn = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    item: (typeof store)[0]
+  ) => {
+    e.stopPropagation();
+  };
+
   return (
     <Wrapper>
-      {store.map((x) => (
+      {store.map((item, index) => (
         <Block
-          style={{ width: `calc(${x.width} - 8px)` }}
-          onClick={() => clickFn(x.location)}
+          style={{
+            width: `calc(${item.width} - 8px)`,
+            backgroundImage: `url(${isDevMedia(item.image)})`,
+          }}
+          key={index}
+          onClick={() => item.location && clickFn(item.location)}
         >
-          <Bg color={getRandomColor()} active={x.active}>
-            {x.title} {!x.active && x.price}
+          <ICON onClick={(е) => iconClickFn(е, item)}>
+            <CiCircleInfo />
+          </ICON>
+          <Bg active={item.active}>
+            {item.title} {!item.active && item.price}
           </Bg>
         </Block>
       ))}
@@ -100,31 +117,52 @@ export const Map = () => {
 
 const Wrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  height: 100vh;
+  padding: 10px;
+  overflow-y: auto;
 `;
-
+const ICON = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 35px;
+  &:hover {
+    color: #3dbed4;
+  }
+`;
 const Block = styled.div`
-  padding: 4px;
-`;
-
-const Bg = styled.div<{ color?: string; active?: boolean }>`
-  height: 300px;
-  background-color: ${(p) => p.color};
+  position: relative;
+  margin: 8px 0;
+  height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+`;
+
+const Bg = styled.div`
+  height: 300px;
+
+  background-size: cover;
+  background-position: center;
+  color: white;
+  display: flex;
+  align-items: center;
+
+  justify-content: center;
+  text-align: center;
   font-size: 30px;
   border-radius: 10px;
-  opacity: 0.5;
+  opacity: ${({ active }) => (active ? 1 : 0.5)};
+  cursor: ${({ active }) => (active ? "pointer" : "default")};
 
-  ${({ active }) =>
-    active &&
-    css`
-      cursor: pointer;
-      opacity: 1;
-      &:hover {
-        background-color: blue;
-      }
-    `}
+  &:hover {
+    background-image: ${({ active }) => active && "rgba(0, 0, 0, 0.5)"};
+  }
 `;
