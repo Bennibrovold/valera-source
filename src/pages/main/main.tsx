@@ -154,5 +154,5 @@ const FeedContainer = styled.div`
   position: absolute;
   right: 0px;
   bottom: 80px;
-  z-index: 10;
+  z-index: 5;
 `;
