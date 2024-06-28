@@ -74,9 +74,9 @@ export const Main = () => {
             <Circle onClick={modal.open}>
               <RxBackpack />
             </Circle>
-            <Global>
-              <ValeraUI />
-            </Global>
+            <Modal {...modal} title="Инвентарь">
+              <Inventory />
+            </Modal>
           </div>
         </CirclesContainer>
         <FeedContainer>

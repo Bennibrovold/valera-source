@@ -7,6 +7,7 @@ import musorka from "../../assets/pomoi.png";
 import garaj from "../../assets/garaj.png";
 import { CiCircleInfo } from "react-icons/ci";
 import { Modal } from "../../shared/ui/modal";
+import { useModal } from "../../shared/ui/modal/use-modal";
 
 export const Map = () => {
   const store = [
@@ -85,12 +86,21 @@ export const Map = () => {
     setScreen("game");
   };
 
+  const [activeItem, setActiveItem] = useState<any>(null);
+
   const iconClickFn = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     item: (typeof store)[0]
   ) => {
     e.stopPropagation();
+    console.log(item);
+    setActiveItem(item);
+    modal.open();
   };
+
+  const modal = useModal();
+
+  console.log(activeItem);
 
   return (
     <Wrapper>
@@ -103,7 +113,11 @@ export const Map = () => {
           key={index}
           onClick={() => item.location && clickFn(item.location)}
         >
-          <ICON onClick={(е) => iconClickFn(е, item)}>
+          <ICON
+            onClick={(e) => {
+              iconClickFn(e, item);
+            }}
+          >
             <CiCircleInfo />
           </ICON>
           <Bg active={item.active}>
@@ -111,9 +125,22 @@ export const Map = () => {
           </Bg>
         </Block>
       ))}
+      <Modal {...modal} title="Описание локации">
+        <ModalTitle>{activeItem?.title}</ModalTitle>
+        <ModalDescription>{activeItem?.info}</ModalDescription>
+      </Modal>
     </Wrapper>
   );
 };
+
+const ModalTitle = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+  color: #000;
+`;
+const ModalDescription = styled.div`
+  color: #000;
+`;
 
 const Wrapper = styled.div`
   display: flex;
