@@ -1,8 +1,13 @@
 import styled from "styled-components";
 import { setScreen } from "../../shared/config/router";
 import { ValeraUI } from "../main/valera.tsx";
+import { $ruLocation } from "../../shared/config/location.ts";
+import { useUnit } from "effector-react";
+import React from "react";
 
 export const ProfilePage = () => {
+  const ruLocation = useUnit($ruLocation);
+
   return (
     <div>
       <H1>Личный кабинет</H1>
@@ -10,9 +15,9 @@ export const ProfilePage = () => {
       <Valera>
         <ValeraUI />
         <Table>
-          <Item>Локация: Помойка</Item>
-          <Item>Работа: СМ</Item>
-          <Item>Заработок в час: 500</Item>
+          <Item>Локация: {ruLocation}</Item>
+          <Item>Работа: Всегда без работный</Item>
+          <Item>Заработок в час: </Item>
         </Table>
       </Valera>
       <Content2>Достижения</Content2>

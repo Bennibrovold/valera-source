@@ -5,7 +5,7 @@ import GARAGE from "../../assets/locations/garage.jpg";
 
 export const $locations = createStore<string[]>({
   trash: TRASH,
-  garage: GARAGE,
+  garage: GARAGE ,
 });
 export const $location = createStore<string>(
   localStorage.getItem("location") || "trash"
@@ -17,3 +17,10 @@ export const setLocation = createEvent<string>();
 $location.on(setLocation, (store, payload) => {
   return payload;
 });
+
+const lang = {
+  trash: "Помойка",
+  garage: "Гараж" ,
+};
+
+export const $ruLocation = $location.map((x) =>  lang[x]);
