@@ -47,16 +47,11 @@ export const Actions = () => {
         <Button onClick={() => setScreen("shop")}>
           <RiShoppingBasket2Line />
         </Button>
-        <Button onClick={() => setScreen("map")}>
+        <Button /* onClick={() => setScreen("map")} */ disabled>
           <RiMap2Line />
         </Button>
         <Button onClick={() => setScreen("mini")}>
           <GrGamepad />
-          {/* <Price>{priceFeed}</Price> */}
-        </Button>
-        <Button onClick={feedValeraFn}>
-          <RiRestaurant2Fill />
-          {/* <Price>{priceFeed}</Price> */}
         </Button>
       </Helper>
     </Wrapper>
@@ -82,6 +77,7 @@ const Button = styled.button`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding: 8px 0px;
   justify-content: center;
   align-items: center;
   flex-grow: 1;

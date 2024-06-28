@@ -15,7 +15,7 @@ import { $location, $locations } from "./shared/config/location";
 import { Shop } from "./pages/shop";
 import Div100vh from "react-div-100vh";
 import { GameHistory } from "./features/game-history";
-import { ShowCase } from './pages/mini/showcase'
+import { ShowCase } from "./pages/mini/showcase";
 import { Games } from "./pages/mini/index";
 
 function App() {
@@ -24,28 +24,28 @@ function App() {
   const location = useUnit($location);
 
   return (
-		<Wrapper location={screen === 'game' ? locations[location] : null}>
-			{screen !== 'menu' && <Header />}
-			{screen === 'shop' ? (
-				<Shop />
-			) : screen === 'profile' ? (
-				<ProfilePage />
-			) : screen === 'menu' ? (
-				<Menu />
-			) : screen === 'mini' ? (
-				<Games />
-			) : screen === 'map' ? (
-				<Map />
-			) : (
-				<Main />
-			)}
-			<DeveloperInfo>
-				Связь с разработчиком:{' '}
-				<a href='https://t.me/hellmorphin'>@Hellmorphin</a>. Версия 1.0.3
-			</DeveloperInfo>
-			<GameHistory />
-		</Wrapper>
-	)
+    <Wrapper location={screen === "game" ? locations[location] : null}>
+      {screen !== "menu" && <Header />}
+      {screen === "shop" ? (
+        <Shop />
+      ) : screen === "profile" ? (
+        <ProfilePage />
+      ) : screen === "menu" ? (
+        <Menu />
+      ) : screen === "mini" ? (
+        <Games />
+      ) : screen === "map" ? (
+        <Map />
+      ) : (
+        <Main />
+      )}
+      <DeveloperInfo>
+        Связь с разработчиком:{" "}
+        <a href="https://t.me/hellmorphin">@Hellmorphin</a>. Версия 1.0.3
+      </DeveloperInfo>
+      <GameHistory />
+    </Wrapper>
+  );
 }
 
 const DeveloperInfo = styled.div`

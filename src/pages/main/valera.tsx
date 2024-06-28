@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import VALERA from "../../assets/valera_default.png";
 import styled, { css } from "styled-components";
-import {
-  $priceFeed,
-  addScore,
-  addXP,
-  isDevelopment,
-  setXP,
-} from "../../shared/config/game";
+import { $priceFeed, addScore, isDevelopment } from "../../shared/config/game";
 import { useUnit } from "effector-react";
 import { addEntities } from "./models/entities";
 import { Entities } from "./entities";
 import { media } from "../../shared/lib/media";
 import { useMatchMedia } from "../../shared/lib/use-match-media";
+import { addXP } from "../../shared/config/lvl";
 
 export const ValeraUI = () => {
   const sm = useMatchMedia((x) => x.less.sm);
@@ -69,9 +64,9 @@ const Wrapper = styled.div<{ isScale: boolean; scaleFactor?: number }>`
 
   height: 500px;
   user-select: none;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   img {
     touch-action: manipulation;
