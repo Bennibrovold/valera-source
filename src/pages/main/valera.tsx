@@ -41,13 +41,7 @@ export const ValeraUI = () => {
       onTouchEnd={() => setIsScale(false)}
     >
       <Entities />
-      <img
-        src={
-          isDevelopment
-            ? VALERA
-            : `https://bennibrovold.github.io/valera-simulator/${VALERA}`
-        }
-      />
+      <img src={VALERA} />
     </Wrapper>
   );
 };
