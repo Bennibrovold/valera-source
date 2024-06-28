@@ -177,12 +177,14 @@ const Menu = styled.div`
   grid-template-rows: 1fr;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
+  font-size: 20px;
 `;
 const Click = styled.div`
   border-radius: 44px;
   background-color: #2c2b2b;
   text-align: center;
   cursor: pointer;
+  font-size: 12px;
 `;
 const Car = styled.div`
   border-radius: 44px;

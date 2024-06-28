@@ -14,8 +14,8 @@ import { Sound } from "../../features/sound";
 
 export const Main = () => {
   const [sleep, setSleep] = useState(100);
-  const [isVisible, setIsVisible] = useState(true);
 
+  const [rotation, setRotation] = useState(0);
   useEffect(() => {
     const decreaseInterval = setInterval(() => {
       setSleep((prevSleep) => {
@@ -25,7 +25,7 @@ export const Main = () => {
     }, 50000);
 
     let restoreInterval;
-    if (!isVisible) {
+    if (!rotation) {
       restoreInterval = setInterval(() => {
         setSleep((prevSleep) => {
           const newSleep = prevSleep + 10;
@@ -38,10 +38,10 @@ export const Main = () => {
       clearInterval(decreaseInterval);
       clearInterval(restoreInterval);
     };
-  }, [isVisible]);
+  }, [rotation]);
 
   const onClickFn = () => {
-    setIsVisible(!isVisible);
+    setRotation((prevRotation) => (prevRotation === 0 ? -90 : 0));
   };
 
   const [eat, setEat] = useState(100);
@@ -82,7 +82,9 @@ export const Main = () => {
         <FeedContainer>
           <Feed />
         </FeedContainer>
-        <Global>{isVisible && <ValeraUI />}</Global>
+        <Global style={{ transform: `rotate(${rotation}deg)` }}>
+          <ValeraUI />
+        </Global>
       </h1>
       <Actions />
     </Wrapper>
@@ -106,6 +108,7 @@ const Global = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition: transform 0.5s ease-in-out;
 `;
 
 const Wrapper = styled.div`
