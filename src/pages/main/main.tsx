@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { ValeraUI } from "./valera";
 import { Actions } from "./actions";
 import { RiZzzFill } from "react-icons/ri";
@@ -66,6 +66,9 @@ export const Main = () => {
       <Stats />
       <XpBar />
       <h1>
+        <AbsoluteAnimateText>
+          Эта игра разрабатывается только потому что мне нужно больше денег
+        </AbsoluteAnimateText>
         <CirclesContainer>
           <Circle onClick={onClickFn}>
             <RiZzzFill />
@@ -155,4 +158,22 @@ const FeedContainer = styled.div`
   right: 0px;
   bottom: 80px;
   z-index: 5;
+`;
+
+const leftToRight = keyframes`
+  from {
+    transform: translateX(1000px);
+  }
+  to {
+    transform: translateX(-1000px);
+  }
+`;
+
+const AbsoluteAnimateText = styled.div`
+  position: absolute;
+  font-size: 12px;
+  text-wrap: nowrap;
+  top: 50%;
+  z-index: 9;
+  animation: ${leftToRight} 30s ease-in-out infinite;
 `;
