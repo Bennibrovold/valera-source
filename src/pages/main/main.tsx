@@ -85,7 +85,12 @@ export const Main = () => {
         <FeedContainer>
           <Feed />
         </FeedContainer>
-        <Global style={{ transform: `rotate(${rotation}deg)` }}>
+        <Global
+          style={{
+            transform: `rotate(${rotation}deg)`,
+            pointerEvents: rotation < 0 ? "none" : "all",
+          }}
+        >
           <ValeraUI />
         </Global>
       </h1>
@@ -146,8 +151,15 @@ const Circle = styled.div`
   cursor: pointer;
   margin-left: 12px;
   margin-right: 12px;
-  &:hover {
+
+  &:active {
     background-color: #296f82;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: #296f82;
+    }
   }
 `;
 
