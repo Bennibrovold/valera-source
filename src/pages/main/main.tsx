@@ -63,7 +63,6 @@ export const Main = () => {
 
   return (
     <Wrapper>
-      <Sound />
       <Stats />
       <XpBar />
       <h1>

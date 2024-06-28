@@ -16,6 +16,8 @@ import { Shop } from "./pages/shop";
 import Div100vh from "react-div-100vh";
 import { GameHistory } from "./features/game-history";
 import { Games } from "./pages/minigames";
+import { Sound } from "./features/sound";
+import React from "react";
 
 function App() {
   const screen = useUnit($screen);
@@ -24,6 +26,7 @@ function App() {
 
   return (
     <Wrapper location={screen === "game" ? locations[location] : null}>
+      <Sound />
       {screen !== "menu" && <Header />}
       {screen === "shop" ? (
         <Shop />

@@ -1,8 +1,19 @@
-import { createStore } from "effector";
+import { createEvent, createStore } from "effector";
 
 import TRASH from "../../assets/locations/trash.jpg";
+import GARAGE from "../../assets/locations/garage.jpg";
 
-export const $locations = createStore<string[]>([TRASH]);
+export const $locations = createStore<string[]>({
+  trash: TRASH,
+  garage: GARAGE,
+});
 export const $location = createStore<string>(
-  localStorage.getItem("location") || 0
+  localStorage.getItem("location") || "trash"
 );
+$location.watch((x) => {
+  localStorage.setItem("location", x);
+});
+export const setLocation = createEvent<string>();
+$location.on(setLocation, (store, payload) => {
+  return payload;
+});

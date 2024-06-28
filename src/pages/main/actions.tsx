@@ -11,7 +11,7 @@ export const Actions = () => {
         <Button onClick={() => setScreen("shop")}>
           <RiShoppingBasket2Line />
         </Button>
-        <Button /* onClick={() => setScreen("map")} */ disabled>
+        <Button onClick={() => setScreen("map")}>
           <RiMap2Line />
         </Button>
         <Button onClick={() => setScreen("mini")}>
