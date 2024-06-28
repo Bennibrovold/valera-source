@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ValeraUI } from "./valera";
-import { useUnit } from "effector-react";
-import { $priceFeed } from "../../shared/config/game";
 import { Actions } from "./actions";
 import { RiZzzFill } from "react-icons/ri";
-import { GiIceCreamScoop } from "react-icons/gi";
 import { Stats } from "../../features/stats/stats";
 import { Inventory } from "../../features/inventory";
 import { Modal } from "../../shared/ui/modal";
 import { useModal } from "../../shared/ui/modal/use-modal";
 import { RxBackpack } from "react-icons/rx";
 import { XpBar } from "../../features/xp-bar/xp-bar";
+import { Feed } from "../../features/feed";
+import { Sound } from "../../features/sound";
 
 export const Main = () => {
-  const priceFeed = useUnit($priceFeed);
-
   const [sleep, setSleep] = useState(100);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -62,17 +59,11 @@ export const Main = () => {
     };
   }, []);
 
-  const onClickFg = () => {
-    setEat((prevCount) => {
-      const newCount = prevCount + 20;
-      return newCount <= 100 ? newCount : 100;
-    });
-  };
-
   const modal = useModal();
 
   return (
     <Wrapper>
+      <Sound />
       <Stats />
       <XpBar />
       <h1>
@@ -88,11 +79,10 @@ export const Main = () => {
               <Inventory />
             </Modal>
           </div>
-          <Circle onClick={onClickFg}>
-            <GiIceCreamScoop />
-            <Price>{priceFeed}</Price>
-          </Circle>
         </CirclesContainer>
+        <FeedContainer>
+          <Feed />
+        </FeedContainer>
         <Global>{isVisible && <ValeraUI />}</Global>
       </h1>
       <Actions />
@@ -105,10 +95,11 @@ const CirclesContainer = styled.div`
   flex-direction: column;
   gap: 8px;
   justify-content: center;
-  width: 100%;
+  width: 80px;
   position: absolute;
   left: 0px;
   bottom: 80px;
+  z-index: 10;
 `;
 
 const Global = styled.div`
@@ -138,8 +129,8 @@ const Wrapper = styled.div`
 
 const Circle = styled.div`
   display: flex;
-  width: 66px;
-  height: 44px;
+  width: 50px;
+  height: 50px;
   gap: 10px;
   border-radius: 44px;
   background-color: #2c2b2b;
@@ -155,8 +146,14 @@ const Circle = styled.div`
   }
 `;
 
-const Price = styled.div`
+const FeedContainer = styled.div`
   display: flex;
-  gap: 10px;
-  font-size: 10px;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  width: 80px;
+  position: absolute;
+  right: 0px;
+  bottom: 80px;
+  z-index: 10;
 `;

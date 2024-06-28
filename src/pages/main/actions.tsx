@@ -1,46 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  $priceFeed,
-  $prices,
-  $progress,
-  $score,
-  $sound,
-  feedValera,
-  isDevMedia,
-} from "../../shared/config/game";
-import { useUnit } from "effector-react";
-import FEED from "../../assets/feed.mp3";
-import {
-  RiMap2Line,
-  RiRestaurant2Fill,
-  RiShoppingBasket2Line,
-} from "react-icons/ri";
+import { RiMap2Line, RiShoppingBasket2Line } from "react-icons/ri";
 import { GrGamepad } from "react-icons/gr";
 import { setScreen } from "../../shared/config/router";
 
-const audio = new Audio();
-audio.preload = "auto";
-audio.src = isDevMedia(FEED);
-
 export const Actions = () => {
-  const score = useUnit($score);
-  const sound = useUnit($sound);
-
-  const priceFeed = useUnit($priceFeed);
-
-  const feedValeraFn = () => {
-    if (score >= priceFeed) {
-      if (sound) {
-        audio.pause();
-        audio.currentTime = 0;
-        audio.play();
-      }
-
-      feedValera();
-    }
-  };
-
   return (
     <Wrapper>
       <Helper>
@@ -90,20 +54,5 @@ const Button = styled.button`
   }
   &:hover {
     background-color: #296f82;
-  }
-`;
-
-const Price = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  font-size: 20px;
-  width: 100%;
-  border-radius: 8px;
-  padding: 4px;
-  background-color: #212121;
-
-  img {
-    height: 30px;
   }
 `;

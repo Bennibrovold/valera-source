@@ -15,8 +15,7 @@ import { $location, $locations } from "./shared/config/location";
 import { Shop } from "./pages/shop";
 import Div100vh from "react-div-100vh";
 import { GameHistory } from "./features/game-history";
-import { ShowCase } from "./pages/mini/showcase";
-import { Games } from "./pages/mini/index";
+import { Games } from "./pages/minigames";
 
 function App() {
   const screen = useUnit($screen);
