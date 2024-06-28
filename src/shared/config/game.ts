@@ -10,9 +10,7 @@ export const globalReset = createEvent<void>();
 export const isDevelopment = process.env.NODE_ENV === "development";
 
 export const isDevMedia = (link) => {
-  return isDevelopment
-    ? link
-    : `https://bennibrovold.github.io/valera-simulator/${link}`;
+  return link;
 };
 
 export const $sound = createStore<boolean>(
