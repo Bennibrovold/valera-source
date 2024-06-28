@@ -4,11 +4,13 @@ import CAR from "../../assets/3.png";
 import React from "react";
 import styled from "styled-components";
 import { media } from "../../shared/lib/media";
+import { $screen } from "../../shared/config/router";
 
 export const LocationHandler = () => {
   const location = useUnit($location);
+  const screen = useUnit($screen);
 
-  if (location === "garage") {
+  if (location === "garage" && screen === "game") {
     return (
       <Wrapper>
         <Image src={CAR} />
