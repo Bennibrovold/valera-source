@@ -173,9 +173,10 @@ const leftToRight = keyframes`
 `;
 
 const AbsoluteAnimateText = styled.div`
-  position: absolute;
+  position: fixed;
   font-size: 12px;
   text-wrap: nowrap;
+  overflow: hidden;
   top: 50%;
   z-index: 9;
   animation: ${leftToRight} 30s ease-in-out infinite;

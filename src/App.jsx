@@ -18,6 +18,7 @@ import { GameHistory } from "./features/game-history";
 import { Games } from "./pages/minigames";
 import { Sound } from "./features/sound";
 import React from "react";
+import { LocationHandler } from "./features/location-handler";
 
 function App() {
   const screen = useUnit($screen);
@@ -27,6 +28,7 @@ function App() {
   return (
     <Wrapper location={screen === "game" ? locations[location] : null}>
       <Sound />
+      <LocationHandler />
       {screen !== "menu" && <Header />}
       {screen === "shop" ? (
         <Shop />
