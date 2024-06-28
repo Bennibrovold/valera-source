@@ -1,6 +1,6 @@
 import { useUnit } from "effector-react";
 import { $location } from "../../shared/config/location";
-import CAR from "../../assets/3.png";
+import CAR from "../../assets/crown.webp";
 import React from "react";
 import styled from "styled-components";
 import { media } from "../../shared/lib/media";

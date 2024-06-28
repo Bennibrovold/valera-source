@@ -8,6 +8,7 @@ import garaj from "../../assets/garaj2.png";
 import { CiCircleInfo } from "react-icons/ci";
 import { Modal } from "../../shared/ui/modal";
 import { useModal } from "../../shared/ui/modal/use-modal";
+import { media } from "../../shared/lib/media";
 
 export const Map = () => {
   const store = [
@@ -109,7 +110,6 @@ export const Map = () => {
         <Block
           style={{
             width: `calc(${item.width} - 8px)`,
-            backgroundImage: `url(${isDevMedia(item.image)})`,
           }}
           key={index}
           onClick={() => item.location && clickFn(item.location)}
@@ -121,7 +121,7 @@ export const Map = () => {
           >
             <CiCircleInfo />
           </ICON>
-          <Bg active={item.active}>
+          <Bg active={item.active} img={item.image}>
             {item.title} {!item.active && item.price}
           </Bg>
         </Block>
@@ -165,7 +165,6 @@ const ICON = styled.div`
 const Block = styled.div`
   position: relative;
   margin: 8px 0;
-  height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -174,14 +173,14 @@ const Block = styled.div`
   cursor: pointer;
 `;
 
-const Bg = styled.div`
+const Bg = styled.div<{ img?: string }>`
   height: 300px;
-
-  background-size: cover;
+  width: 100%;
   background-position: center;
   color: white;
   display: flex;
   align-items: center;
+  background: url(${(p) => isDevMedia(p.img)});
 
   justify-content: center;
   text-align: center;
@@ -189,8 +188,18 @@ const Bg = styled.div`
   border-radius: 10px;
   opacity: ${({ active }) => (active ? 1 : 0.5)};
   cursor: ${({ active }) => (active ? "pointer" : "default")};
+  background-repeat: no-repeat;
+  background-size: cover;
 
   &:hover {
     background-image: ${({ active }) => active && "rgba(0, 0, 0, 0.5)"};
+  }
+
+  ${media.pure.greater(media.size.xs)} {
+    height: 600px;
+  }
+
+  ${media.pure.greater(media.size.md)} {
+    height: 1000px;
   }
 `;
