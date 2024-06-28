@@ -132,6 +132,9 @@ const Item = styled.div<{ isEnough: boolean }>`
     css`
       opacity: 0.5;
     `}
+  &:hover {
+    background-color: #1398b3;
+  }
 `;
 
 const Title = styled.div`
@@ -189,6 +192,10 @@ const Button = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    color: #3dbed4;
+  }
 `;
 
 const IMG = styled.div`
