@@ -132,8 +132,14 @@ const Item = styled.div<{ isEnough: boolean }>`
     css`
       opacity: 0.5;
     `}
-  &:hover {
+  &:active {
     background-color: #1398b3;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: #296f82;
+    }
   }
 `;
 
@@ -193,8 +199,14 @@ const Button = styled.div`
   align-items: center;
   justify-content: center;
 
-  &:hover {
-    color: #3dbed4;
+  &:active {
+    color: #1398b3;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: #296f82;
+    }
   }
 `;
 

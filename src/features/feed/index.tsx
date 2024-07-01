@@ -56,8 +56,14 @@ const Circle = styled.div`
   align-items: center;
   cursor: pointer;
 
-  &:hover {
-    background-color: #296f82;
+  &:active {
+    background-color: #1398b3;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: #296f82;
+    }
   }
 `;
 

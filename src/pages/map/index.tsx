@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
-import { isDevMedia } from "../../shared/config/game";
+import { isDevMedia, $score } from "../../shared/config/game";
 import { setLocation } from "../../shared/config/location";
 import { setScreen } from "../../shared/config/router";
 import musorka from "../../assets/musorka2.png";
@@ -9,6 +9,8 @@ import { CiCircleInfo } from "react-icons/ci";
 import { Modal } from "../../shared/ui/modal";
 import { useModal } from "../../shared/ui/modal/use-modal";
 import { media } from "../../shared/lib/media";
+import { $lvl } from "../../shared/config/lvl.ts";
+import { useUnit } from "effector-react";
 
 export const Map = () => {
   const store = [
@@ -25,10 +27,10 @@ export const Map = () => {
       width: "90%",
       title: "Гараж",
       location: "garage",
-      active: true,
-      price: 15000,
+      active: false,
+      price: 1,
       image: garaj,
-      lvl: 15,
+      lvl: 1,
       info: "На этой локации будет доступна покупка авто и добыча ресурсов будет увеличина",
     },
     {
@@ -83,52 +85,77 @@ export const Map = () => {
     },
   ];
 
-  const clickFn = (location) => {
-    setLocation(location);
-    setScreen("game");
+  const score = useUnit($score);
+  const lvl = useUnit($lvl);
+
+  const buyLocation = (locationName) => {
+    setStore(
+      store.map((location) => {
+        if (
+          location.name === locationName &&
+          !location.active &&
+          score >= location.price &&
+          lvl >= location.lvl
+        ) {
+          return { ...location, active: true };
+        }
+        return location;
+      })
+    );
   };
 
-  const [activeItem, setActiveItem] = useState<any>(null);
-
-  const iconClickFn = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    item: (typeof store)[0]
-  ) => {
-    e.stopPropagation();
-    console.log(item);
-    setActiveItem(item);
-    modal.open();
-  };
-
+  const [activeItem, setActiveItem] = useState(null);
   const modal = useModal();
-
-  console.log(activeItem);
 
   return (
     <Wrapper>
       {store.map((item, index) => (
         <Block
+          key={index}
           style={{
             width: `calc(${item.width} - 8px)`,
           }}
-          key={index}
-          onClick={() => item.location && clickFn(item.location)}
+          onClick={() => {
+            if (!item.active) {
+              setActiveItem(item);
+              modal.open();
+            } else if (item.active && item.location) {
+              setLocation(item.location);
+              setScreen("game");
+            }
+          }}
         >
           <ICON
             onClick={(e) => {
-              iconClickFn(e, item);
+              e.stopPropagation();
+              setActiveItem(item);
+              modal.open();
             }}
           >
             <CiCircleInfo />
           </ICON>
           <Bg active={item.active} img={item.image}>
-            {item.title} {!item.active && item.price}
+            <span>{item.title}</span>
+            {!item.active && (
+              <TextContainer>
+                <span>Цена: {item.price}</span>
+                <span>Уровень: {item.lvl}</span>
+                <BUY onClick={() => buyLocation(item.title)}>Купить</BUY>
+              </TextContainer>
+            )}
           </Bg>
         </Block>
       ))}
       <Modal {...modal} title="Описание локации">
         <ModalTitle>{activeItem?.title}</ModalTitle>
         <ModalDescription>{activeItem?.info}</ModalDescription>
+        {!activeItem?.active && (
+          <>
+            <BUY onClick={() => buyLocation(activeItem?.title)}>
+              Купить за {activeItem?.price}
+            </BUY>
+          </>
+        )}
       </Modal>
     </Wrapper>
   );
@@ -151,6 +178,14 @@ const Wrapper = styled.div`
   height: 100vh;
   padding: 10px;
   overflow-y: auto;
+`;
+const BUY = styled.div`
+  display: flex;
+  font-size: 18px;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  font-size: 18px;
 `;
 const ICON = styled.div`
   position: absolute;
@@ -181,7 +216,7 @@ const Bg = styled.div<{ img?: string }>`
   display: flex;
   align-items: center;
   background: url(${(p) => isDevMedia(p.img)});
-
+  flex-direction: column;
   justify-content: center;
   text-align: center;
   font-size: 30px;
@@ -202,4 +237,13 @@ const Bg = styled.div<{ img?: string }>`
   ${media.pure.greater(media.size.md)} {
     height: 1000px;
   }
+`;
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  font-size: 18px;
 `;
