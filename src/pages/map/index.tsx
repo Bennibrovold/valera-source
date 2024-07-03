@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { $score, isDevMedia } from "../../shared/config/game";
+import { isDevMedia } from "../../shared/config/game";
 import {
   $locations,
   $locationsInfo,
@@ -17,6 +17,7 @@ import { GoPlus } from "react-icons/go";
 import { FaArrowAltCircleUp, FaPlus } from "react-icons/fa";
 import BUHLO from "../../assets/buhlo.webp";
 import { $lvl } from "../../shared/config/lvl";
+import { $score } from "../../shared/config/stores";
 
 export const Map = () => {
   const score = useUnit($score);

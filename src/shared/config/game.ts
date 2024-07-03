@@ -4,8 +4,8 @@ import BALOON from "../../assets/baloon.mp3";
 import { $up, setUp, store } from "../../pages/shop/shop";
 import { STORE_DATA_SAMPLE } from "../../pages/shop/shop.data";
 import { hasherator } from "../lib/hasherator";
-
-export const globalReset = createEvent<void>();
+import { $currentLocation } from "./location";
+import { $score } from "./stores";
 
 export const isDevelopment = process.env.NODE_ENV === "development";
 
@@ -24,32 +24,21 @@ $sound.watch((x) => {
   localStorage.setItem("sound", x.toString());
 });
 
-const initScore = () => {
-  if (
-    hasherator(localStorage.getItem("score")).toString() ===
-    localStorage.getItem("key")
-  ) {
-    return parseFloat(localStorage.getItem("score"));
-  }
-  return 0;
-};
-
-export const $score = createStore<number>(initScore());
 export const setScore = createEvent<number>();
 export const setHistoryScore = createEvent<number>();
 export const addScore = createEvent<void>();
 
 $score.on(setHistoryScore, (store, payload) => {
-  console.log(store, payload, store + payload);
   return store + payload;
 });
 
 $score.on(addScore, (store) => {
+  const location = $currentLocation.getState();
   let multiplayer = $multiplayer.getState();
   const up = $up.getState();
 
   up.forEach((item) => {
-    multiplayer += item.qnty * item.multiply;
+    multiplayer += item.qnty * item.multiply * location?.multiply;
   });
 
   return Number(

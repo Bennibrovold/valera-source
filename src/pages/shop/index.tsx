@@ -3,9 +3,10 @@ import { $up, buy } from "./shop";
 import { $up1, buy1 } from "./carshop";
 import styled, { css } from "styled-components";
 import React, { useState } from "react";
-import { $multiplayerShow, $score, isDevMedia } from "../../shared/config/game";
+import { $multiplayerShow, isDevMedia } from "../../shared/config/game";
 import BUHLO from "../../assets/buhlo.webp";
 import { numberToSpecialFormat } from "../../shared/lib/format-number";
+import { $score } from "../../shared/config/stores";
 
 export const Shop = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);

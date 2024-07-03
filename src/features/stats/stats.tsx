@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { $multiplayerShow, $score, isDevMedia } from "../../shared/config/game";
+import { $multiplayerShow, isDevMedia } from "../../shared/config/game";
 import BUHLO from "../../assets/buhlo.webp";
 import { useUnit } from "effector-react";
 import { numberToSpecialFormat } from "../../shared/lib/format-number";
@@ -8,6 +8,7 @@ import { BarUI } from "../bar";
 import { FaGrinHearts, FaRegSmile } from "react-icons/fa";
 import { IoFastFoodSharp } from "react-icons/io5";
 import { RiZzzFill } from "react-icons/ri";
+import { $score } from "../../shared/config/stores";
 
 export const Stats = () => {
   const score = useUnit($score);

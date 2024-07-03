@@ -1,7 +1,6 @@
 import { useUnit } from "effector-react";
 import {
   $priceFeed,
-  $score,
   $sound,
   feedValera,
   isDevMedia,
@@ -11,6 +10,7 @@ import styled from "styled-components";
 import { GiIceCreamScoop } from "react-icons/gi";
 import React from "react";
 import { numberToSpecialFormat } from "../../shared/lib/format-number";
+import { $score } from "../../shared/config/stores";
 
 const audio = new Audio();
 audio.preload = "auto";

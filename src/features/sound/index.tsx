@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
-import {
-  $dead,
-  $score,
-  $sound,
-  isDevMedia,
-  setDead,
-} from "../../shared/config/game";
+import { $dead, $sound, isDevMedia, setDead } from "../../shared/config/game";
 import { useUnit } from "effector-react";
 import TUTUTU from "../../assets/tututu.mp3";
+import { $score } from "../../shared/config/stores";
 
 const tututu = new Audio();
 tututu.preload = "auto";

@@ -1,10 +1,8 @@
 import { createEvent, createStore } from "effector";
-import { $score, } from "../../shared/config/game";
 import { CARSTORE_DATA_SAMPLE } from "./carshop.data";
-
+import { $score } from "../../shared/config/stores";
 
 export const store1 = CARSTORE_DATA_SAMPLE;
-
 
 export const $up1 = createStore(
   JSON.parse(localStorage.getItem("carstore")) || store1
@@ -12,7 +10,8 @@ export const $up1 = createStore(
 
 $up1.watch((x) => {
   if (
-    CARSTORE_DATA_SAMPLE.length > JSON.parse(localStorage.getItem("carstore"))?.length
+    CARSTORE_DATA_SAMPLE.length >
+    JSON.parse(localStorage.getItem("carstore"))?.length
   ) {
     localStorage.setItem("carstore", JSON.stringify(CARSTORE_DATA_SAMPLE));
   } else {
@@ -22,18 +21,15 @@ $up1.watch((x) => {
 
 export const buy1 = createEvent<any>();
 
-buy1.watch(({ name, price}) => {
+buy1.watch(({ name, price }) => {
   const store = $up1.getState();
-  
+
   const score = $score.getState();
 
-  
-
   if (score >= price) {
-    const index1= store1.findIndex((x) => x.name === name);
-    
+    const index1 = store1.findIndex((x) => x.name === name);
   }
-  
+
   setUp(store1);
 });
 

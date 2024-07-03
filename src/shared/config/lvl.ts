@@ -1,6 +1,6 @@
 import { createEvent, createStore } from "effector";
-import { globalReset } from "./game";
 import { getParsedValue } from "../lib/parseToValue";
+import { globalReset } from "./global-reset";
 
 export const $lvl = createStore<number>(
   getParsedValue(localStorage.getItem("lvl")) || 1

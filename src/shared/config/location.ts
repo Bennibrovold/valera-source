@@ -1,8 +1,9 @@
 import { combine, createEvent, createStore, sample } from "effector";
 import { LOCATIONS_DATA } from "../data/location.data";
-import { $score, setScore } from "./game";
+import { setScore } from "./game";
 import { $lvl } from "./lvl";
 import { getParsedValue } from "../lib/parseToValue";
+import { $score } from "./stores";
 
 export const $locations = createStore(LOCATIONS_DATA);
 
