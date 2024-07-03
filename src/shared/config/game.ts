@@ -39,7 +39,6 @@ export const setScore = createEvent<number>();
 export const setHistoryScore = createEvent<number>();
 export const addScore = createEvent<void>();
 
-
 $score.on(setHistoryScore, (store, payload) => {
   console.log(store, payload, store + payload);
   return store + payload;
@@ -164,5 +163,4 @@ export const $multiplayerShow = combine([$multiplayer, $up]).map((store) => {
   });
 
   return multiplayer_;
-  
 });

@@ -966,10 +966,10 @@ effector-react@^23.2.1:
   dependencies:
     use-sync-external-store "^1.0.0"
 
-effector@^23.2.2:
-  version "23.2.2"
-  resolved "https://registry.npmjs.org/effector/-/effector-23.2.2.tgz"
-  integrity sha512-gzwATi9pgZQx0TNhM2LESmoUpEO+vhibLZPCvVzi7spMvKFwKnfJV2PFj4xqNFFSC35TXaznx30ne62dCQ6ZRQ==
+effector@^22.8.8:
+  version "22.8.8"
+  resolved "https://registry.yarnpkg.com/effector/-/effector-22.8.8.tgz#e37a36b7a9a447d150a24a16110e6c360eed64d3"
+  integrity sha512-uqYEPt/jIZ3Y1WhpyED1XuXAJNsVM5TcWZvcyQhl6nYKRynklGiu+Fy/BnLQftmMcxZS478laAuExUPfuOGiOg==
 
 electron-to-chromium@^1.4.796:
   version "1.4.806"

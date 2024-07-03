@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { media } from "../../lib/media";
 import { IoClose } from "react-icons/io5";
 
@@ -7,8 +7,8 @@ export const Modal = ({ show, close, title, children }) => {
   if (!show) return null;
 
   return (
-    <ModalWrapper>
-      <ModalContent id="inventory-modal">
+    <ModalWrapper onClick={() => close()}>
+      <ModalContent id="inventory-modal" onClick={(e) => e.stopPropagation()}>
         <Header>
           <H2>{title}</H2>
           <CloseButton onClick={() => close()}>
@@ -48,25 +48,53 @@ export const ModalWrapper = styled.div`
   }
 `;
 
+const slideUp = keyframes`
+  from {
+    transform: translateY(100vh);
+  }
+
+  to {
+    transform: translateY(0px);
+  }
+`;
+
+const slideLeft = keyframes`
+  from {
+    transform: translateX(100vw);
+  }
+
+  to {
+    transform: translateX(0px);
+  }
+`;
+
 export const ModalContent = styled.div`
   background-color: #fff;
-  padding: 20px;
-  border-radius: 15px;
+  padding: 16px 32px 32px 32px;
+  border-radius: 16px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 80%;
   max-width: 500px;
   position: relative;
+
+  animation: ${slideUp} 0.25s ease-in-out forwards;
 
   ${media.pure.less(media.size.sm)} {
     width: 100%;
     max-width: 100%;
     max-height: 80%;
     overflow-y: auto;
+
+    padding: 16px 16px 32px 16px;
+
+    animation: ${slideLeft} 0.25s ease-in-out forwards;
+
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
   }
 `;
 
 export const CloseButton = styled.button`
-  margin-right: -20px;
   display: flex;
   align-items: center;
   padding: 8px 16px;
@@ -74,16 +102,25 @@ export const CloseButton = styled.button`
   border: none;
   font-size: 35px;
   cursor: pointer;
-  color: orange;
+  color: black;
+  transition: 0.1s ease-in-out;
 
   &:hover {
-    color: black;
+    color: #fff;
+    background-color: darkorange;
+  }
+  &:active {
+    background-color: #e37d00;
+  }
+  &:focus {
+    outline: none;
   }
 `;
 
 const H2 = styled.div`
   color: black;
-  font-size: 20px;
+  font-size: 24px;
+  font-weight: bold;
   display: flex;
   justify-content: center;
   margin: 0px;

@@ -11,7 +11,7 @@ import { isDevMedia } from "./shared/config/game";
 import BG from "./assets/bg.png";
 import { Header } from "./layout/header";
 import "./assets/font/font.css";
-import { $location, $locations } from "./shared/config/location";
+import { $locationImage } from "./shared/config/location";
 import { Shop } from "./pages/shop";
 import Div100vh from "react-div-100vh";
 import { GameHistory } from "./features/game-history";
@@ -22,11 +22,10 @@ import { LocationHandler } from "./features/location-handler";
 
 function App() {
   const screen = useUnit($screen);
-  const locations = useUnit($locations);
-  const location = useUnit($location);
+  const image = useUnit($locationImage);
 
   return (
-    <Wrapper location={screen === "game" ? locations[location] : null}>
+    <Wrapper location={screen === "game" ? image : null}>
       <Sound />
       <LocationHandler />
       {screen !== "menu" && <Header />}

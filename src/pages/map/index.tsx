@@ -1,15 +1,27 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
-import { isDevMedia } from "../../shared/config/game";
-import { setLocation } from "../../shared/config/location";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { $score, isDevMedia } from "../../shared/config/game";
+import {
+  $locations,
+  $locationsInfo,
+  buyLocation,
+  setLocation,
+} from "../../shared/config/location";
 import { setScreen } from "../../shared/config/router";
 import { CiCircleInfo } from "react-icons/ci";
 import { Modal } from "../../shared/ui/modal";
 import { useModal } from "../../shared/ui/modal/use-modal";
 import { media } from "../../shared/lib/media";
-import { store } from "../map/map.data";
+import { useUnit } from "effector-react";
+import { GoPlus } from "react-icons/go";
+import { FaArrowAltCircleUp, FaPlus } from "react-icons/fa";
+import BUHLO from "../../assets/buhlo.webp";
+import { $lvl } from "../../shared/config/lvl";
 
 export const Map = () => {
+  const score = useUnit($score);
+  const lvl = useUnit($lvl);
+  const locations = useUnit($locationsInfo);
   const clickFn = (location) => {
     setLocation(location);
     setScreen("game");
@@ -19,10 +31,9 @@ export const Map = () => {
 
   const iconClickFn = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    item: (typeof store)[0]
+    item: (typeof locations)[0]
   ) => {
     e.stopPropagation();
-    console.log(item);
     setActiveItem(item);
 
     modal.open();
@@ -30,15 +41,12 @@ export const Map = () => {
 
   const modal = useModal();
 
-  console.log(activeItem);
-
   return (
     <Wrapper>
-      {store.map((item, index) => (
+      {locations?.map((item, index) => (
         <Block
-          style={{
-            width: `calc(${item.width} - 8px)`,
-          }}
+          key={index}
+          onClick={item.active ? () => clickFn(item.location) : () => {}}
         >
           <ICON
             onClick={(e) => {
@@ -48,43 +56,120 @@ export const Map = () => {
             <CiCircleInfo />
           </ICON>
           <Bg active={item.active} img={item.image}>
-            {item.active ? (
-              <span>{item.title}</span>
-            ) : (
-              <TextContainer>
+            <TextContainer>
+              {item.active ? (
                 <span>{item.title}</span>
-                <span>Уровень: {item.lvl}</span>
-                <span>Цена: {item.price}</span>
-              </TextContainer>
-            )}
+              ) : (
+                <>
+                  <span>{item.title} (Недоступо)</span>
+                  <div>
+                    <span>Lvl: {item.lvl}</span>
+                    <span>
+                      <img src={BUHLO} />: {item.price}
+                    </span>
+                    <button
+                      onClick={() => buyLocation(item.location)}
+                      disabled={!(item.lvl <= lvl && item.price <= score)}
+                    >
+                      Купить
+                    </button>
+                  </div>
+                </>
+              )}
+            </TextContainer>
           </Bg>
         </Block>
       ))}
-      <Modal {...modal} title="Описание локации">
-        <ModalTitle>{activeItem?.title}</ModalTitle>
-        <ModalDescription>{activeItem?.info}</ModalDescription>
+      <Modal {...modal} title={activeItem?.title}>
+        <Content>
+          {activeItem?.advantages && (
+            <Avanantages>
+              <Plus>
+                <FaPlus />
+              </Plus>
+              {activeItem?.advantages?.join(", ")}
+            </Avanantages>
+          )}
+
+          <Avanantages>
+            <Plus>
+              <FaArrowAltCircleUp />
+            </Plus>
+            x{activeItem?.multiply} Прибыль
+          </Avanantages>
+          <ModalDescription>{activeItem?.info}</ModalDescription>
+        </Content>
       </Modal>
     </Wrapper>
   );
 };
+
+const Avanantages = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #299829;
+`;
+const Plus = styled.div`
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2fd72f;
+  color: #299829;
+  padding: 4px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
 
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  height: calc(100% - 32px);
+  padding: 16px;
 
-  font-size: 25px;
-`;
-
-const ModalTitle = styled.div`
   font-size: 20px;
-  font-weight: 500;
-  color: #000;
+
+  div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    height: 100%;
+
+    img {
+      height: 30px;
+    }
+
+    span {
+      &:last-child {
+        flex-grow: 1;
+      }
+    }
+
+    button {
+      padding: 16px;
+    }
+  }
 `;
+
 const ModalDescription = styled.div`
   color: #000;
+  font-size: 18px;
+  color: #535353;
+  line-height: 150%;
+
+  ${media.pure.less(media.size.sm)} {
+    font-size: 16px;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -107,17 +192,18 @@ const ICON = styled.div`
   }
 `;
 const Block = styled.div`
+  width: 100%;
+  max-width: 1170px;
   position: relative;
   margin: 8px 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
   border-radius: 10px;
   cursor: pointer;
 `;
 
-const Bg = styled.div<{ img?: string }>`
+const Bg = styled.div<{ active: boolean; img?: string }>`
   height: 300px;
   width: 100%;
   background-position: center;
@@ -127,7 +213,6 @@ const Bg = styled.div<{ img?: string }>`
   background: url(${(p) => isDevMedia(p.img)});
 
   justify-content: center;
-  text-align: center;
   font-size: 30px;
   border-radius: 10px;
 
@@ -140,10 +225,16 @@ const Bg = styled.div<{ img?: string }>`
   }
 
   ${media.pure.greater(media.size.xs)} {
-    height: 600px;
+    height: 300px;
   }
 
   ${media.pure.greater(media.size.md)} {
-    height: 1000px;
+    height: 500px;
   }
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `;
