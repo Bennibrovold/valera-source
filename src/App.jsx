@@ -4,7 +4,7 @@ import { useUnit } from "effector-react";
 import { $screen } from "./shared/config/router";
 import { Menu } from "./pages/menu";
 import { Main } from "./pages/main/main";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { ProfilePage } from "./pages/profile/profile";
 import { Map } from "./pages/map";
 import { isDevMedia } from "./shared/config/game";
@@ -47,9 +47,16 @@ function App() {
         <a href="https://t.me/hellmorphin">@Hellmorphin</a>. Версия 1.0.3
       </DeveloperInfo>
       <GameHistory />
+      <StylesheetGlobal />
     </Wrapper>
   );
 }
+
+const StylesheetGlobal = createGlobalStyle`
+.swal2-icon-content {
+      margin-left: 7px;
+}
+`;
 
 const DeveloperInfo = styled.div`
   position: fixed;
