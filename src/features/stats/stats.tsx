@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { $multiplayerShow, isDevMedia } from "../../shared/config/game";
-import BUHLO from "../../assets/buhlo.webp";
+import BUHLO from "../../assets/wallet.png";
+import UP from "../../assets/upx.webp";
 import { useUnit } from "effector-react";
 import { numberToSpecialFormat } from "../../shared/lib/format-number";
 import { BarUI } from "../bar";
@@ -18,20 +19,21 @@ export const Stats = () => {
 
   return (
     <GameInfo>
+      <Bar>
+        <BarUI count={sleep} Icon={RiZzzFill} color="#e5b16d" />
+        <BarUI count={eat} Icon={IoFastFoodSharp} color="#e5b16d" />
+
+        <BarUI count="50" Icon={FaRegSmile} color="#e5b16d" />
+      </Bar>
+
       <ScoreWrapper>
         <Score>
-          {numberToSpecialFormat(score)}
           <img src={isDevMedia(BUHLO)} />
+          <Multiplayer2>{numberToSpecialFormat(score)}</Multiplayer2>
+          <img src={isDevMedia(UP)} />
+          <Multiplayer> X{multiplayer}</Multiplayer>
         </Score>
-        <Multiplayer> X{multiplayer}</Multiplayer>
       </ScoreWrapper>
-      <Bar>
-        <BarUI count="100" Icon={FaGrinHearts} color="purple" />
-        <BarUI count={sleep} Icon={RiZzzFill} color="#007ca6" />
-        <BarUI count={eat} Icon={IoFastFoodSharp} color="green" />
-
-        <BarUI count="80" Icon={FaRegSmile} color="#a69800" />
-      </Bar>
     </GameInfo>
   );
 };
@@ -42,25 +44,35 @@ const GameInfo = styled.div`
   z-index: 1;
   padding: 10px 10px;
 `;
-const ScoreWrapper = styled.div``;
-const Score = styled.div`
+const ScoreWrapper = styled.div`
   display: flex;
+  justify-content: left;
+  margin-right: 50px;
+`;
+const Score = styled.div`
+  display: grid;
+  grid-template-rows: 2fr;
+  grid-template-columns: repeat(2, 2fr);
   gap: 8px;
-  align-items: center;
-
-  font-size: 28px;
 
   img {
-    height: 50px;
-    order: -1;
+    height: 35px;
   }
 `;
 
 const Bar = styled.div`
   display: grid;
   grid-template-rows: 1fr;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(1, 3fr);
   gap: 8px;
 `;
 
-const Multiplayer = styled.div``;
+const Multiplayer = styled.div`
+  font-size: 20px;
+`;
+const Multiplayer2 = styled.div`
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

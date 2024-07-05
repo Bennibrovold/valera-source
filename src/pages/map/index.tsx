@@ -15,7 +15,7 @@ import { media } from "../../shared/lib/media";
 import { useUnit } from "effector-react";
 import { GoPlus } from "react-icons/go";
 import { FaArrowAltCircleUp, FaPlus } from "react-icons/fa";
-import BUHLO from "../../assets/buhlo.webp";
+import BUHLO from "../../assets/buhlo22.webp";
 import { $lvl } from "../../shared/config/lvl";
 import { $score } from "../../shared/config/stores";
 

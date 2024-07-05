@@ -78,7 +78,7 @@ const Wrapper = styled.div`
     left: 0;
     right: 0;
     height: 110px;
-    background-color: #2e2d2d;
+    background-color: #7a7373;
     border-radius: 0 0 50px 50px;
     z-index: 1;
   }

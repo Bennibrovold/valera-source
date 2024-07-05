@@ -1,5 +1,5 @@
 import musorka from "../../assets/musorka2.png";
-import garaj from "../../assets/garaj2.png";
+import garaj from "../../assets/garajfull.png";
 
 export const LOCATIONS_DATA = [
   {

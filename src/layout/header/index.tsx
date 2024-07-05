@@ -66,7 +66,7 @@ const Wrapper = styled.div`
     left: 0;
     right: 0;
     height: 55px;
-    background-color: #2e2d2d;
+    background-color: #7a7373;
 
     z-index: -1;
   }

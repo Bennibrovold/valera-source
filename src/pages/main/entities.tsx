@@ -2,7 +2,7 @@ import { useUnit } from "effector-react";
 import { $entities, removeEntitites } from "./models/entities";
 import { useEffect, useRef } from "react";
 import styled, { keyframes } from "styled-components";
-import BUHLO from "../../assets/buhlo.webp";
+import BUHLO from "../../assets/buhlo22.webp";
 import { isDevMedia } from "../../shared/config/game";
 
 export const Entities = () => {

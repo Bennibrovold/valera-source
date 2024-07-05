@@ -113,7 +113,7 @@ const Circle = styled.div`
 
 const SlideOutPanel = styled.div<SlideOutPanelProps>`
   position: fixed;
-  bottom: 60px;
+  bottom: 58px;
   left: 0;
   width: 100%;
   height: 60px;

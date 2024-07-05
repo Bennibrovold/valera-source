@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { setScreen } from "../../shared/config/router";
-import BUHLO from "../../assets/buhlo.webp";
+import BUHLO from "../../assets/buhlo22.webp";
 import VALERA from "../../assets/valera_default.png";
 import { media } from "../../shared/lib/media";
 

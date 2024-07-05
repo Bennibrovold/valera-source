@@ -14,19 +14,19 @@ export const Lvlbar = ({ count, color }) => {
 };
 const Wrapper = styled.div<{ count: number; color: string }>`
   position: relative;
-  height: 80px;
-  width: 24px;
+  height: 20px;
+  width: 100px;
   border-radius: 8px;
   background-color: #2c2b2b;
   display: flex;
-  justify-content: center;
+  justify-content: right;
 
   &:before {
     content: "";
     position: absolute;
 
-    height: ${(p) => p.count + "%"};
-    width: 24px;
+    height: 20px;
+    width: ${(p) => p.count + "%"};
     border-radius: 8px;
     background-color: ${(p) => p.color};
     display: flex;
@@ -36,10 +36,11 @@ const Wrapper = styled.div<{ count: number; color: string }>`
 
   svg {
     position: relative;
-    margin-top: 4px;
+    margin-top: 2px;
+    margin-right: 4px;
     z-index: 2;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
   }
 `;
 
