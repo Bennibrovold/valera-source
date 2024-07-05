@@ -39,6 +39,8 @@ export const Stats = () => {
 const GameInfo = styled.div`
   display: flex;
   justify-content: space-between;
+  z-index: 1;
+  padding: 10px 10px;
 `;
 const ScoreWrapper = styled.div``;
 const Score = styled.div`

@@ -23,4 +23,6 @@ const Xpbar = styled.div`
   align-items: center;
   justify-content: center;
   gap: 8px;
+  z-index: 1;
+  padding-top: 40px;
 `;

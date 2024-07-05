@@ -45,11 +45,10 @@ export const Feed = () => {
 const Circle = styled.div`
   display: flex;
   flex-direction: column;
-  width: 70px;
-  height: 70px;
+  width: 100px;
+  height: 50px;
   gap: 10px;
   border-radius: 44px;
-  background-color: #2c2b2b;
 
   justify-content: center;
   font-size: 23px;
@@ -71,10 +70,9 @@ const Price = styled.div`
   display: flex;
   justify-content: center;
   gap: 8px;
-  font-size: 12px;
-  border-radius: 8px;
+  font-size: 13px;
+
   padding: 4px;
-  background-color: #212121;
 
   img {
     height: 30px;

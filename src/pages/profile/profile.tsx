@@ -82,11 +82,12 @@ const Strong = styled.div`
 const H1 = styled.div`
   display: flex;
   border-bottom: 4px solid #ffffff;
-  padding-bottom: 10px;
+  padding-bottom: 4px;
   width: 100%;
   justify-content: center;
   font-weight: bold;
   font-size: 25px;
+  padding-top: 10px;
 `;
 
 const Content = styled.div`

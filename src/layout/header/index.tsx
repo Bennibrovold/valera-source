@@ -51,11 +51,25 @@ const Wrapper = styled.div`
   height: 40px;
   display: flex;
   align-items: center;
-  padding: 8px 8px;
+  padding-top: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
   background-color: transparent;
   gap: 8px;
   position: relative;
   z-index: 2;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+    background-color: #2e2d2d;
+
+    z-index: -1;
+  }
 `;
 
 const Links = styled.div`

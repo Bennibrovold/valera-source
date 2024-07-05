@@ -166,6 +166,7 @@ const Score = styled.div`
   align-items: center;
   font-size: 28px;
   gap: 8px;
+  padding: 12px 12px;
   img {
     height: 50px;
   }
@@ -181,7 +182,6 @@ const Group = styled.div`
 `;
 
 const Menu = styled.div`
-  padding-top: 10px;
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: repeat(3, 1fr);
