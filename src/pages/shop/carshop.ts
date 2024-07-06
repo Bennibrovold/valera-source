@@ -1,14 +1,14 @@
 import { createEvent, createStore } from "effector";
 import { CARSTORE_DATA_SAMPLE } from "./carshop.data";
 import { $score } from "../../shared/config/stores";
+import { setScore } from "../../shared/config/game";
+export const carstore = CARSTORE_DATA_SAMPLE;
 
-export const store1 = CARSTORE_DATA_SAMPLE;
-
-export const $up1 = createStore(
-  JSON.parse(localStorage.getItem("carstore")) || store1
+export const $carup = createStore(
+  JSON.parse(localStorage.getItem("carstore")) || carstore
 );
 
-$up1.watch((x) => {
+$carup.watch((x) => {
   if (
     CARSTORE_DATA_SAMPLE.length >
     JSON.parse(localStorage.getItem("carstore"))?.length
@@ -19,22 +19,36 @@ $up1.watch((x) => {
   }
 });
 
-export const buy1 = createEvent<any>();
+export const carbuy = createEvent<any>();
 
-buy1.watch(({ name, price }) => {
-  const store = $up1.getState();
+carbuy.watch(({ name, price }) => {
+  const store = $carup.getState();
 
   const score = $score.getState();
 
   if (score >= price) {
-    const index1 = store1.findIndex((x) => x.name === name);
+    const index1 = carstore.findIndex((x) => x.name === name);
+    if (score >= price && typeof price === "number") { 
+      const index = carstore.findIndex((x) => x.name === name);
+      if (index !== -1) {
+        
+        carstore[index] = {
+          ...carstore[index],
+          price: "КУПЛЕНО",
+          
+        };
+    
+        
+        setScore(score - price);
+      }
+    }
   }
 
-  setUp(store1);
+  setUp(carstore);
 });
 
 export const setUp = createEvent<any>();
 
-$up1.on(setUp, (_, payload) => {
+$carup.on(setUp, (_, payload) => {
   return [...payload];
 });

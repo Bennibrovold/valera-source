@@ -1,6 +1,6 @@
 import { useUnit } from "effector-react";
 import { $up, buy } from "./shop";
-import { $up1, buy1 } from "./carshop";
+import { $carup, carbuy } from "./carshop";
 import styled, { css } from "styled-components";
 import React, { useState } from "react";
 import { $multiplayerShow, isDevMedia } from "../../shared/config/game";
@@ -14,8 +14,8 @@ export const Shop = () => {
   const [isMenuOpen3, setIsMenuOpen3] = useState(false);
   const score = useUnit($score);
   const shop = useUnit($up);
-  const score1 = useUnit($score);
-  const shop1 = useUnit($up1);
+  const carshop = useUnit($carup);
+
   const multiplayer = useUnit($multiplayerShow);
 
   const onClickFn = (menuName) => {
@@ -69,11 +69,17 @@ export const Shop = () => {
       )}
       {isMenuOpen2 && (
         <Group>
-          {shop1.map((x) => (
+          {carshop.map((x) => (
             <Item
               key={x.name}
-              onClick={() => buy1({ name: x.name, price: x.price })}
-              isEnough={x.price <= score1}
+              onClick={() =>
+                carbuy({
+                  name: x.name,
+                  price: typeof x.price === "number" ? x.price : 0,
+                  type: "car",
+                })
+              }
+              isEnough={typeof x.price === "number" && x.price <= score}
             >
               <Title>
                 <Name>{x.name}</Name>
@@ -83,7 +89,6 @@ export const Shop = () => {
                 <Price>{numberToSpecialFormat(x.price)}</Price>
               </Title>
               <SubTitle>
-                <p>Куплено: {x.qnty}</p>
                 <p>+{x.multiply} Авто прибыль</p>
               </SubTitle>
             </Item>
