@@ -9,7 +9,7 @@ export const Menu = () => {
     <Wrapper>
       <Content>
         <h2>Valera Simulator</h2>
-        <div onClick={() => setScreen("game")}>Играть</div>
+        <div onClick={() => setScreen("register")}>Играть</div>
         <BUHLOIMG src={BUHLO} />
         <VALERAIMG src={VALERA} />
       </Content>

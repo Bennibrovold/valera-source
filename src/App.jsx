@@ -4,6 +4,7 @@ import { useUnit } from "effector-react";
 import { $screen } from "./shared/config/router";
 import { Menu } from "./pages/menu";
 import { Main } from "./pages/main/main";
+import { Register } from "./pages/main/register/register.jsx";
 import styled, { createGlobalStyle } from "styled-components";
 import { ProfilePage } from "./pages/profile/profile";
 import { Map } from "./pages/map";
@@ -28,8 +29,12 @@ function App() {
     <Wrapper location={screen === "game" ? image : null}>
       <Sound />
       <LocationHandler />
+
       {screen !== "menu" && <Header />}
-      {screen === "shop" ? (
+
+      {screen === "register" ? (
+        <Register />
+      ) : screen === "shop" ? (
         <Shop />
       ) : screen === "profile" ? (
         <ProfilePage />
@@ -44,7 +49,7 @@ function App() {
       )}
       <DeveloperInfo>
         Связь с разработчиком:{" "}
-        <a href="https://t.me/hellmorphin">@Hellmorphin</a>. Версия 1.0.3
+        <a href="https://t.me/hellmorphin">@Hellmorphin</a>. Бета 1.0.3
       </DeveloperInfo>
       <GameHistory />
       <StylesheetGlobal />
