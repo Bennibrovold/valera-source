@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { GAMES_DATA } from "./games.data";
 import { media } from "../../shared/lib/media";
+import { setScreen } from "../../shared/config/router.ts";
 
 export const Games = () => {
   const wrapperRef = useRef(null);

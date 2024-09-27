@@ -61,7 +61,6 @@ margin: 30px 0 ;
 }
 
 
-
 .wrapper .rememberforgot {
 display: flex;
 justify-content: space-between;
@@ -80,10 +79,17 @@ margin: -15px 0 15px;
 .rememberforgot a :hover{
     text-decoration:underline ;
 }
-.wrapper {
-
+.wrapper button{
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    color: #333;
+    font-weight: 700;
 }
-
 
 .wrapper .registerlink {
     font-size: 14.5px;
@@ -113,34 +119,15 @@ margin: -15px 0 15px;
     margin-left: 8px;
   }
 
-  .button{
-    width: 100%;
-    height: 40px;
-    
-    background: #fff;
-    border: none;
-    outline: none;
-    border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-    color: #333;
-    font-weight: 700;
+  .exit{
     display: flex;
-    text-decoration: none;
-    padding-left:  70px;
-    
+    margin-top: 40px;
+    padding-left:  150px;
+    color: #fff;
+    font-size: 20px;
+    text-decoration:none ;
     
   }
-  .loginB{
-    
-    padding-left:  25px;
-    padding-top: 10px;
-    color: black;
-    text-decoration: none;
-
-  }
-
-
-  .colorggg{
-color: #ff7700;
-
+  .but{
+    cursor: pointer;
   }

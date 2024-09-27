@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import styled from "styled-components";
 import { setScreen } from "../../../shared/config/router.ts";
 import { FaUser, FaLock } from "react-icons/fa";
 import style from "./Login.module.css";
-import { $user, setUser } from "../../../backend/models/User.js";
+import { $user, setUser } from "../../main/models/user.js";
 import { useUnit } from "effector-react";
 import { loginRequest } from "../../../shared/hooks/auth.js";
 
@@ -28,54 +28,61 @@ export function Register() {
 
   useLayoutEffect(() => {}, []);
   return (
-    <div className={style.container}>
-      {user.username && <Navigate to="/Cabinet" replace={true} />}
-      <div className={style.ssp}>
-        <div className={style.pps}>
-          <div className={style.wrapper}>
-            <h1>Login</h1>
-            <form>
-              <div className={style.inputbox}>
-                <input
-                  name="username"
-                  type="text"
-                  placeholder="Username"
-                  required
-                  onChange={setInputValue}
-                />
-                <FaUser className={style.icon} />
-              </div>
-              <div className={style.inputbox}>
-                <input
-                  name="password"
-                  type="Password"
-                  placeholder="Password"
-                  required
-                  onChange={setInputValue}
-                />
-                <FaLock className={style.icon} />
-              </div>
-              <div className={style.rememberforgot}>
-                <label>
-                  <input type="checkbox" />
-                  Remember me
-                </label>
-                <a href="#">Forgot password?</a>
-              </div>
+    <Wrapper>
+      <div className={style.container}>
+        <div className={style.ssp}>
+          <div className={style.pps}>
+            <div className={style.wrapper}>
+              <h1>Вход</h1>
+              <form>
+                <div className={style.inputbox}>
+                  <input
+                    name="username"
+                    type="text"
+                    placeholder="Логин"
+                    required
+                    onChange={setInputValue}
+                  />
+                  <FaUser className={style.icon} />
+                </div>
+                <div className={style.inputbox}>
+                  <input
+                    name="password"
+                    type="Password"
+                    placeholder="Пароль"
+                    required
+                    onChange={setInputValue}
+                  />
+                  <FaLock className={style.icon} />
+                </div>
+                <div className={style.rememberforgot}>
+                  <a href="#">Забыли пароль?</a>
+                </div>
 
-              <button className={style.button} onClick={handleSubmit}>
-                <a className={style.loginB}>Login</a>
-              </button>
-            </form>
-            <div className={style.registerlink}>
-              <a>Dont have an account?</a>
-              <Link className={style.registeracc} to="/Register">
-                <a className={style.colorreg}>Register</a>
-              </Link>
+                <button className={style.button} onClick={handleSubmit}>
+                  <a className={style.loginB}>Войти</a>
+                </button>
+              </form>
+              <div className={style.registerlink}>
+                <div className={style.colorggg}>Нету аккаута? Создай!</div>
+
+                <div onClick={() => setScreen("login")}>Регистация</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  place-items: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+
+  overflow: hidden;
+`;

@@ -10,12 +10,40 @@ export const Menu = () => {
       <Content>
         <h2>Valera Simulator</h2>
         <div onClick={() => setScreen("register")}>Играть</div>
+
         <BUHLOIMG src={BUHLO} />
         <VALERAIMG src={VALERA} />
       </Content>
+      <>
+        <Info onClick={() => setScreen("Infogames")}>Об игре</Info>
+      </>
     </Wrapper>
   );
 };
+
+const Info = styled.div`
+  position: relative;
+
+  z-index: 1;
+  box-shadow: -6px 4px 2px rgba(177, 222, 218, 0.66);
+  margin-top: 100px;
+  padding: 16px;
+  width: 100px;
+  height: 20px;
+  color: #000;
+  background-color: rgb(180, 228, 224);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+
+  &:hover {
+    background-color: rgb(161, 206, 202);
+    box-shadow: -6px 4px 2px rgba(162, 203, 200, 0.66);
+  }
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -77,7 +105,7 @@ const BUHLOIMG = styled.img`
   position: absolute;
   left: -50px;
   top: -50px;
-  height: 120px;
+  height: 100px;
   transform: rotate(-25deg);
   opacity: 0.7;
   overflow: hidden;
@@ -90,7 +118,7 @@ const BUHLOIMG = styled.img`
 const VALERAIMG = styled.img`
   position: absolute;
   z-index: 0;
-  height: 200px;
+  height: 180px;
   right: -100px;
   overflow: hidden;
   top: -75px;
@@ -98,6 +126,6 @@ const VALERAIMG = styled.img`
   opacity: 0.7;
 
   ${media.pure.less(media.size.sm)} {
-    right: -50px;
+    right: -32px;
   }
 `;

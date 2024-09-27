@@ -5,6 +5,8 @@ import { $screen } from "./shared/config/router";
 import { Menu } from "./pages/menu";
 import { Main } from "./pages/main/main";
 import { Register } from "./pages/main/register/register.jsx";
+import { Infogames } from "./pages/main/info/Infogames.tsx";
+import { Registermain } from "./pages/main/register/loginreg.jsx";
 import styled, { createGlobalStyle } from "styled-components";
 import { ProfilePage } from "./pages/profile/profile";
 import { Map } from "./pages/map";
@@ -30,10 +32,14 @@ function App() {
       <Sound />
       <LocationHandler />
 
-      {screen !== "menu" && <Header />}
+      {screen !== "menu" && screen !== "Infogames" && screen !== "exit" && (
+        <Header />
+      )}
 
       {screen === "register" ? (
         <Register />
+      ) : screen === "login" ? (
+        <Registermain />
       ) : screen === "shop" ? (
         <Shop />
       ) : screen === "profile" ? (
@@ -44,6 +50,10 @@ function App() {
         <Games />
       ) : screen === "map" ? (
         <Map />
+      ) : screen === "exit" ? (
+        <Menu />
+      ) : screen == "Infogames" ? (
+        <Infogames />
       ) : (
         <Main />
       )}

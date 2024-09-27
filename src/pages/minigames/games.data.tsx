@@ -11,10 +11,10 @@ export const GAMES_DATA = [
   },
 
   {
-    name: "Do Your Best",
-    description: "description ",
-    dificulty: "Средняя",
-    rules: "press button as hard as you can!",
+    name: "Угодайка",
+    description: "Сложность : Легко",
+    dificulty: "Легко",
+    rules: "Отдых :",
     image: solo,
   },
 
