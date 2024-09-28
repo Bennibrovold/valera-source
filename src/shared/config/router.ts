@@ -36,3 +36,10 @@ export const $screenexit = createStore<string>("exit");
 export const setScreenexit = createEvent<string>();
 
 $screenexit.on(setScreenexit, (_, payload) => payload);
+
+
+export const $screengames = createStore<string>("GamesAkinator");
+
+export const setScreengames = createEvent<string>();
+
+$screengames.on(setScreengames, (_, payload) => payload);

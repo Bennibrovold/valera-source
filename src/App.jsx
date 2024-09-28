@@ -6,6 +6,7 @@ import { Menu } from "./pages/menu";
 import { Main } from "./pages/main/main";
 import { Register } from "./pages/main/register/register.jsx";
 import { Infogames } from "./pages/main/info/Infogames.tsx";
+import { GamesAkinator } from "./pages/minigames/localgames/GamesAkinator.tsx";
 import { Registermain } from "./pages/main/register/loginreg.jsx";
 import styled, { createGlobalStyle } from "styled-components";
 import { ProfilePage } from "./pages/profile/profile";
@@ -54,6 +55,8 @@ function App() {
         <Menu />
       ) : screen == "Infogames" ? (
         <Infogames />
+      ) : screen == "GamesAkinator" ? (
+        <GamesAkinator />
       ) : (
         <Main />
       )}

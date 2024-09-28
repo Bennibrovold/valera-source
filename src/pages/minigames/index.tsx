@@ -47,7 +47,7 @@ export const Games = () => {
         <Wrapper ref={wrapperRef}>{listItems}</Wrapper>
         <Button onClick={scrollRight}> {">"} </Button>
       </Container>
-      <Button>Играть</Button>
+      <Button onClick={() => setScreen("GamesAkinator")}>Играть</Button>
     </GlobalWrapper>
   );
 };
