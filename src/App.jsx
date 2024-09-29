@@ -49,6 +49,8 @@ function App() {
         <Menu />
       ) : screen === "mini" ? (
         <Games />
+      ) : screen === "mini" ? (
+        <GamesAkinator />
       ) : screen === "map" ? (
         <Map />
       ) : screen === "exit" ? (

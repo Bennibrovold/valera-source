@@ -8,17 +8,19 @@ import { Entities } from "./entities";
 import { media } from "../../shared/lib/media";
 import { useMatchMedia } from "../../shared/lib/use-match-media";
 import { addXP } from "../../shared/config/lvl";
-
+import ckickSound from "../../assets/custom8.mp3";
 export const ValeraUI = () => {
   const sm = useMatchMedia((x) => x.less.sm);
   const [isScale, setIsScale] = React.useState(false);
   const feed = useUnit($priceFeed);
+  const explosionAudiockick = new Audio(ckickSound);
 
   const handleButtonClick = () => {
     addXP(5);
   };
 
   const onClickFn = () => {
+    explosionAudiockick.play();
     addScore();
     addEntities();
     handleButtonClick();
