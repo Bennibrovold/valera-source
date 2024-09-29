@@ -11,10 +11,10 @@ export const GAMES_DATA = [
   },
 
   {
-    name: "Угодайка",
+    name: "Падающие бутылки",
     description: "Сложность : Легко",
     dificulty: "Легко",
-    rules: "Отдых :",
+    rules: "Настроение : + 50%",
     image: solo,
   },
 
