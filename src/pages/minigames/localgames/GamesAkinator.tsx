@@ -2,9 +2,14 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import objectImage from "../../../assets/buhlo22.webp";
 import bombImage from "../../../assets/bomba.webp";
-import x2Image from "../../../assets/2x.webp";
+import x2Image from "../../../assets/2x.webp"; // Изображение для объекта 2x
 import explosionSound from "../../../assets/baloon.mp3";
 import clickSound from "../../../assets/custom8.mp3";
+import ballImage from "../../../assets/ballwebp.webp";
+import bananaImage from "../../../assets/banan.webp";
+import glassImage from "../../../assets/glass.webp";
+import keyImage from "../../../assets/key.webp";
+
 import { setScreen } from "../../../shared/config/router.ts";
 
 export const GamesAkinator = () => {
@@ -15,9 +20,17 @@ export const GamesAkinator = () => {
   const [gameOver, setGameOver] = useState(false);
   const [exploded, setExploded] = useState(false);
   const [multiplierActive, setMultiplierActive] = useState(false);
-  const [x2Object, setX2Object] = useState(null);
+  const [x2Object, setX2Object] = useState(null); // Состояние для объекта 2x
+  const [specialObject, setSpecialObject] = useState(null); // Состояние для специального объекта
   const explosionAudio = new Audio(explosionSound);
   const clickAudio = new Audio(clickSound);
+
+  const newObjectImages = [
+    { image: ballImage, style: "ball" },
+    { image: bananaImage, style: "banana" },
+    { image: glassImage, style: "glass" },
+    { image: keyImage, style: "key" },
+  ];
 
   const checkOverlap = (left, top) => {
     const allItems = [...objects, ...bombs];
@@ -47,6 +60,7 @@ export const GamesAkinator = () => {
     }
   }, [timeLeft, gameOver]);
 
+  // Появление обычных объектов
   useEffect(() => {
     if (!gameOver) {
       const interval = setInterval(() => {
@@ -58,7 +72,7 @@ export const GamesAkinator = () => {
 
         setObjects((prev) => [
           ...prev,
-          { id: Date.now(), left: left, top: top },
+          { id: Date.now(), left: left, top: top, image: objectImage },
         ]);
       }, 200);
 
@@ -66,6 +80,7 @@ export const GamesAkinator = () => {
     }
   }, [gameOver]);
 
+  // Появление бомб
   useEffect(() => {
     if (!gameOver) {
       const interval = setInterval(() => {
@@ -82,12 +97,45 @@ export const GamesAkinator = () => {
     }
   }, [gameOver]);
 
+  // Появление специального объекта
   useEffect(() => {
-    if (!x2Object && !gameOver) {
+    if (!gameOver && !specialObject) {
       const randomTime = Math.random() * (40 - 20) + 20;
 
+      const specialTimeout = setTimeout(() => {
+        let left, top;
+        do {
+          left = Math.random() * 90 + "%";
+          top = -10;
+        } while (checkOverlap(left, top));
+
+        const randomObject =
+          newObjectImages[Math.floor(Math.random() * newObjectImages.length)];
+        setSpecialObject({
+          id: Date.now(),
+          left: left,
+          top: top,
+          image: randomObject.image,
+          style: randomObject.style,
+        });
+      }, randomTime * 1000);
+
+      return () => clearTimeout(specialTimeout);
+    }
+  }, [gameOver, specialObject]);
+
+  useEffect(() => {
+    if (!gameOver && !x2Object) {
+      const randomTime = Math.random() * (30 - 15) + 15;
+
       const x2Timeout = setTimeout(() => {
-        setX2Object({ id: "x2", left: Math.random() * 90 + "%", top: -10 });
+        let left, top;
+        do {
+          left = Math.random() * 90 + "%";
+          top = -10;
+        } while (checkOverlap(left, top));
+
+        setX2Object({ id: "x2", left: left, top: top });
       }, randomTime * 1000);
 
       return () => clearTimeout(x2Timeout);
@@ -102,11 +150,23 @@ export const GamesAkinator = () => {
             .map((obj) => ({ ...obj, top: obj.top + 3 }))
             .filter((obj) => obj.top < 100)
         );
+
+        if (specialObject) {
+          setSpecialObject((prev) =>
+            prev ? { ...prev, top: prev.top + 3 } : null
+          );
+        }
+
+        if (x2Object) {
+          setX2Object((prevX2) =>
+            prevX2 ? { ...prevX2, top: prevX2.top + 3 } : null
+          );
+        }
       }, 40);
 
       return () => clearInterval(interval);
     }
-  }, [gameOver]);
+  }, [gameOver, specialObject, x2Object]);
 
   useEffect(() => {
     if (!gameOver) {
@@ -121,18 +181,6 @@ export const GamesAkinator = () => {
       return () => clearInterval(interval);
     }
   }, [gameOver]);
-
-  useEffect(() => {
-    if (x2Object && !gameOver) {
-      const interval = setInterval(() => {
-        setX2Object((prevX2) =>
-          prevX2 ? { ...prevX2, top: prevX2.top + 3 } : null
-        );
-      }, 50);
-
-      return () => clearInterval(interval);
-    }
-  }, [x2Object, gameOver]);
 
   const handleClickObject = (id) => {
     clickAudio.play();
@@ -153,6 +201,12 @@ export const GamesAkinator = () => {
     setX2Object(null);
   };
 
+  const handleClickSpecialObject = () => {
+    clickAudio.play();
+    setSpecialObject(null);
+    setScore(score + (multiplierActive ? 2 : 1));
+  };
+
   const handleExit = () => {
     setGameOver(false);
     setScore(0);
@@ -162,6 +216,7 @@ export const GamesAkinator = () => {
     setExploded(false);
     setMultiplierActive(false);
     setX2Object(null);
+    setSpecialObject(null);
   };
 
   return (
@@ -178,9 +233,23 @@ export const GamesAkinator = () => {
                 style={{ left: obj.left, top: `${obj.top}%` }}
                 onClick={() => handleClickObject(obj.id)}
               >
-                <img src={objectImage} alt="object" />
+                <img src={obj.image} alt="object" />
               </FallingObject>
             ))}
+
+            {/* Специальный объект */}
+            {specialObject && (
+              <SpecialObject
+                className={specialObject.style}
+                style={{
+                  left: specialObject.left,
+                  top: `${specialObject.top}%`,
+                }}
+                onClick={handleClickSpecialObject}
+              >
+                <img src={specialObject.image} alt="special object" />
+              </SpecialObject>
+            )}
 
             {/* Бомбы */}
             {bombs.map((bomb) => (
@@ -257,6 +326,15 @@ const FallingObject = styled.div`
   cursor: pointer;
   transition: top 0.1s linear;
 
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const SpecialObject = styled(FallingObject)`
+  width: 50px;
+  height: 50px;
   img {
     width: 100%;
     height: 100%;
