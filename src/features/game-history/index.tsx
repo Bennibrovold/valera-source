@@ -18,7 +18,7 @@ export const GameHistory = () => {
       }).then((x) => {
         setHistoryScore(HYSTORY[rand_val].bonus);
       });
-    }, 500000);
+    }, 400000);
   }, []);
 
   return null;
