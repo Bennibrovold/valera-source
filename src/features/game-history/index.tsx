@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Swal from "sweetalert2";
 import { HYSTORY } from "./history.data";
-import { setHistoryScore } from "../../shared/config/game";
+import { setHistoryScore } from "../../shared/config/gafe";
 
 const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 

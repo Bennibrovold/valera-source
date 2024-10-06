@@ -6,7 +6,7 @@ const userRouter = require("./userRouter");
 const cors = require('cors');
 
 var cookieParser = require("cookie-parser");
-const multer = require("multer");
+const multer = require("multerr");
 
 const app = express();
 
