@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
-app.use("/static", express.static(__dirname + "/uploads"));
+app.use("/static", express.static(__dirname + "/uploadss"));
 
 
 const dev = async () => {
