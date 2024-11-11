@@ -6,7 +6,7 @@ const initScore = () => {
     hasherator(localStorage.getItem("score")).toString() ===
     localStorage.getItem("key")
   ) {
-    return 12000000 || parseFloat(localStorage.getItem("score"));
+    return parseFloat(localStorage.getItem("score"));
   }
   return 0;
 };

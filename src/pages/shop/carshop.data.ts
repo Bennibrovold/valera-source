@@ -22,7 +22,7 @@ interface CarStoreItem {
     {
         name: "Матиз",
         image: car, 
-        price: 1,
+        price: 10000,
         multiply: 1,
         auto: 0,
        

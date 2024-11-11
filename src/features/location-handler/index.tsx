@@ -10,23 +10,22 @@ import { $carup } from "../../pages/shop/carshop";
 export const LocationHandler = () => {
   const location = useUnit($location);
   const screen = useUnit($screen);
-  const carshop = useUnit($carup)
+  const carshop = useUnit($carup);
 
-  console.log(carshop)
+  console.log(carshop);
 
   const carImg = useMemo(() => {
-    let carIdx = -1
+    let carIdx = -1;
 
     carshop.forEach((element, i) => {
-      if(element.price === 'КУПЛЕНО' && carIdx < i) {
-        carIdx = i
-      } 
+      if (element.price === "КУПЛЕНО" && carIdx < i) {
+        carIdx = i;
+      }
     });
 
-    return carshop[carIdx].image
-  }, [carshop])
+    return carshop[carIdx].image;
+  }, [carshop]);
 
-  
   if (location === "garage" && screen === "game") {
     return (
       <Wrapper>
