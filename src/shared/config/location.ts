@@ -22,6 +22,8 @@ $locationsAvailable.on(addLocationsAvailable, (store, payload) => [
   payload,
 ]);
 
+$locationsAvailable.watch(console.log)
+
 export const $locationsInfo = combine(
   [$locations, $locationsAvailable],
   ([locations, availables]) => {
@@ -54,18 +56,32 @@ export const $locationImage = $currentLocation.map((x) => x!.image);
 
 export const buyLocation = createEvent<string>();
 
-sample({
-  clock: buyLocation,
-  source: combine([$score, $locationsInfo, $lvl]),
-  fn: (source, location) => {
-    const [score, locations, lvl] = source;
+export const buyLocationFn = createEvent<any>();
+
+buyLocation.watch((source) => {
+  console.log(source)
+
+  const location = source;
+  const score = $score.getState()
+  const locations = $locations.getState()
+  const lvl = $lvl.getState()
+    
     const { price, lvl: lvl_ } = locations.find(
       (item) => item.location === location
     );
 
+
+
+    console.log(lvl_)
+
+    console.log('here2')
+
+    console.log(price, score, lvl_, lvl)
     if (price <= score && lvl_ <= lvl) {
+      console.log('here')
       setScore(parseFloat((parseFloat(score) - parseFloat(price)).toFixed(2)));
+      console.log(location)
       addLocationsAvailable(location);
     }
-  },
-});
+})
+

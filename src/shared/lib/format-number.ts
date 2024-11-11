@@ -1,4 +1,5 @@
 export const numberToSpecialFormat = (number) => {
+  if(number === "КУПЛЕНО") return number
   if (!number) return 0;
 
   // Определяем степень тысячи

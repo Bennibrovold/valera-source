@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { isDevMedia } from "../../shared/config/game";
 import {
@@ -20,6 +20,7 @@ import { $lvl } from "../../shared/config/lvl";
 import { $score } from "../../shared/config/stores";
 
 export const Map = () => {
+  const [location, setLocation_] = useState<any>('')
   const score = useUnit($score);
   const lvl = useUnit($lvl);
   const locations = useUnit($locationsInfo);
@@ -27,6 +28,12 @@ export const Map = () => {
     setLocation(location);
     setScreen("game");
   };
+
+  useEffect(() => {
+    if(location) {
+      buyLocation(location)
+    }
+  }, [location])
 
   const [activeItem, setActiveItem] = useState<any>(null);
 
@@ -39,6 +46,10 @@ export const Map = () => {
 
     modal.open();
   };
+
+  const buyLocationFn = () => {
+
+  }
 
   const modal = useModal();
 
@@ -69,7 +80,7 @@ export const Map = () => {
                       <img src={BUHLO} />: {item.price}
                     </span>
                     <button
-                      onClick={() => buyLocation(item.location)}
+                      onClick={() => setLocation_(item.location)}
                       disabled={!(item.lvl <= lvl && item.price <= score)}
                     >
                       Купить
