@@ -1,4 +1,4 @@
-import { combine, createEvent, createStore, sample } from "effector";
+import { combine, createEvent, createStore } from "effector";
 import { LOCATIONS_DATA } from "../data/location.data";
 import { setScore } from "./game";
 import { $lvl } from "./lvl";
@@ -22,7 +22,7 @@ $locationsAvailable.on(addLocationsAvailable, (store, payload) => [
   payload,
 ]);
 
-$locationsAvailable.watch(console.log)
+$locationsAvailable.watch(console.log);
 
 export const $locationsInfo = combine(
   [$locations, $locationsAvailable],
@@ -59,29 +59,40 @@ export const buyLocation = createEvent<string>();
 export const buyLocationFn = createEvent<any>();
 
 buyLocation.watch((source) => {
-  console.log(source)
-
   const location = source;
-  const score = $score.getState()
-  const locations = $locations.getState()
-  const lvl = $lvl.getState()
-    
-    const { price, lvl: lvl_ } = locations.find(
-      (item) => item.location === location
-    );
+  const score = $score.getState();
+  const locations = $locations.getState();
+  const lvl = $lvl.getState();
+  
+  const { price, lvl: lvl_, multiply } = locations.find(
+    (item) => item.location === location
+  ) || {};
 
-
-
-    console.log(lvl_)
-
-    console.log('here2')
-
-    console.log(price, score, lvl_, lvl)
+  if (price && lvl_ !== undefined && multiply !== undefined) {
     if (price <= score && lvl_ <= lvl) {
-      console.log('here')
       setScore(parseFloat((parseFloat(score) - parseFloat(price)).toFixed(2)));
-      console.log(location)
       addLocationsAvailable(location);
     }
-})
+  }
+});
 
+// Функция для периодического увеличения очков на основе множителя купленных локаций
+function updateScoreWithMultiply() {
+  setInterval(() => {
+    const locationsAvailable = $locationsAvailable.getState();
+    const locations = $locations.getState();
+    const score = $score.getState();
+
+    const totalMultiply = locations
+      .filter((location) => 
+        locationsAvailable.includes(location.location) && location.multiply
+      )
+      .reduce((acc, location) => acc + (location.multiply || 0), 0);
+
+    if (totalMultiply > 0) {
+      setScore(score + totalMultiply);
+    }
+  }, 3000);
+}
+
+updateScoreWithMultiply();
