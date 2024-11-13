@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { useUnit } from "effector-react";
-import { $screen } from "./shared/config/router";
+import { $screen, setScreen } from "./shared/config/router";
 import { Menu } from "./pages/menu";
 import { Main } from "./pages/main/main";
 import { Register } from "./pages/main/register/register.jsx";
@@ -23,13 +23,45 @@ import { Games } from "./pages/minigames";
 import { Sound } from "./features/sound";
 import React from "react";
 import { LocationHandler } from "./features/location-handler";
+import { useSwipeable } from "react-swipeable";
 
 function App() {
   const screen = useUnit($screen);
   const image = useUnit($locationImage);
 
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (screen === "game") {
+        setScreen("shop");
+      } else if (screen === "map") {
+        setScreen("game");
+      }
+    },
+    onSwipedRight: () => {
+      if (screen === "shop") {
+        setScreen("game");
+      } else if (screen === "game") {
+        setScreen("map");
+      }
+    },
+    onSwipedDown: () => {
+      if (screen === "game") {
+        setScreen("profile");
+      }
+    },
+    onSwipedUp: () => {
+      if (screen === "profile") {
+        setScreen("game");
+      }
+    },
+    delta: 75,
+    preventDefaultTouchmoveEvent: true,
+    trackTouch: true,
+    trackMouse: true,
+  });
+
   return (
-    <Wrapper location={screen === "game" ? image : null}>
+    <Wrapper location={screen === "game" ? image : null} {...swipeHandlers}>
       <Sound />
       <LocationHandler />
 
