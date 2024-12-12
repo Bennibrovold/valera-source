@@ -25,6 +25,8 @@ export const GamesAkinator = () => {
   const explosionAudio = new Audio(explosionSound);
   const clickAudio = new Audio(clickSound);
 
+  console.log("rerender");
+
   const newObjectImages = [
     { image: ballImage, style: "ball" },
     { image: bananaImage, style: "banana" },
@@ -65,10 +67,9 @@ export const GamesAkinator = () => {
     if (!gameOver) {
       const interval = setInterval(() => {
         let left, top;
-        do {
-          left = Math.random() * 90 + "%";
-          top = -10;
-        } while (checkOverlap(left, top));
+
+        left = Math.random() * 90 + "%";
+        top = -10;
 
         setObjects((prev) => [
           ...prev,
