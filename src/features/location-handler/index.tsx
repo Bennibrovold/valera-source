@@ -23,8 +23,10 @@ export const LocationHandler = () => {
       }
     });
 
-    return carshop[carIdx].image;
+    return carshop[carIdx]?.image;
   }, [carshop]);
+
+  if (!carImg) return null;
 
   if (location === "garage" && screen === "game") {
     return (
